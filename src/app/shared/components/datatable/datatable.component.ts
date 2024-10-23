@@ -10,7 +10,6 @@ import {cols} from '@feat/client/client.data';
 import {TableRowDirective} from '@app/shared/components/datatable/directives/table-row.directive';
 import {RowTemplatePipe} from '@app/shared/components/datatable/pipes/row-template.pipe';
 import {CepPipe, CpfCnpjPipe} from '@app/core/pipes/';
-import {ClientStoreService} from '@feat/client/services/client-store.service';
 import {StoreService} from '@app/shared/components/base-crud/basecrud.model';
 
 
@@ -57,6 +56,7 @@ export class DatatableComponent {
   @Input() showDeleteAction = true;
   @Input() showCreateAction = true;
   @Input() showRefreshAction = true;
+  @Input() pageSize = 15;
 
   createAction(): void {
     this.onCreate.emit(true);

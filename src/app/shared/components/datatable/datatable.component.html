@@ -1,5 +1,5 @@
-<p-table [columns]="cols" [value]="value" [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-striped" [paginator]="true"
-         [rows]="15" selectionMode="single" [(selection)]="selectedItem" >
+<p-table [columns]="cols" [value]="value" [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-striped" [paginator]="value.length > pageSize"
+         [rows]="pageSize" selectionMode="single" [(selection)]="selectedItem" >
   <ng-template pTemplate="emptymessage">
     <tr>
       <td [colSpan]="cols.length" class="text-center">Sem dados. Agrega un elemento novo.</td>
