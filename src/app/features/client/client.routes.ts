@@ -1,8 +1,9 @@
 import {Routes} from '@angular/router';
-import {ClientListComponent} from '@feat/client/component/client-list/client-list.component';
+import {clientResolver} from '@feat/client/resolver/client.resolver';
+import {ClientComponent} from '@feat/client/client/client.component';
 
 export const ClientRoutes: Routes = [
   {
-    path: '', component: ClientListComponent
+    path: '', component: ClientComponent, resolve: { data: clientResolver }
   }
 ];

@@ -27,7 +27,8 @@
     "paths": {
       "@app/*": ["src/app/*"],
       "@feat/*": ["src/app/features/*"],
-    }
+    },
+    "strictPropertyInitialization": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

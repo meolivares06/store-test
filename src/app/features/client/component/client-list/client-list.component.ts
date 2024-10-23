@@ -1,12 +1,21 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
+import {catchError, EMPTY, Subscription, tap} from 'rxjs';
+
 import {TableLazyLoadEvent, TableModule} from 'primeng/table';
-import {ClientHttpService} from '@feat/client/services/client.http.service';
-import {cols} from '@feat/client/client.data';
 import {Button} from 'primeng/button';
-import {LazyLoadEvent} from 'primeng/api';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {Subscription} from 'rxjs';
+import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ToastModule} from 'primeng/toast';
+
+import {cols} from '@feat/client/client.data';
+import {ClientFormComponent} from '@feat/client/component/client-form/client-form.component';
+import {DatatableComponent} from '@app/shared/components/datatable/datatable.component';
+import {TableRowDirective} from '@app/shared/components/datatable/directives/table-row.directive';
+import {CepPipe} from '@app/core/pipes';
+import {ClientStoreService} from '@feat/client/services/client-store.service';
+
 
 @Component({
   selector: 'app-client-list',
@@ -14,41 +23,103 @@ import {Subscription} from 'rxjs';
   imports: [
     TableModule,
     JsonPipe,
-    Button
+    Button,
+    DatatableComponent,
+    TableRowDirective,
+    CepPipe,
+    ConfirmDialogModule,
+    ToastModule
   ],
   templateUrl: './client-list.component.html',
   styleUrl: './client-list.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DialogService, ConfirmationService, MessageService]
 })
-export class ClientListComponent implements OnInit, OnDestroy {
-  httpService = inject(ClientHttpService);
+export class ClientListComponent implements OnDestroy {
+  store = inject(ClientStoreService);
+  dialogService = inject(DialogService);
+  confirmationService = inject(ConfirmationService);
+  messageService = inject(MessageService);
 
-  list = signal<any>(null);
   cols = cols;
-  totalRecords!: number;
 
-  loading: boolean = false;
 
-  subscriptions: Array<Subscription> = [];
-  ngOnInit(): void {
-    this.loading = true;
-    // this.httpService.getProducts().then(p => this.list.set(p));
+  ref: DynamicDialogRef | undefined;
+  subscriptions: Subscription[] = [];
+
+  onDelete(rowData: any) {
+
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to proceed?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.subscriptions.push(
+          this.store.deleteFirebase(rowData).pipe(
+            tap(() => this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Executed succefully' })),
+            catchError(() => {
+              this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'Process failed' });
+              return EMPTY;
+            }),
+          ).subscribe()
+        );
+      },
+      reject: () => {
+        console.log('nothing')
+      }
+    });
+
   }
 
-  loadData(event: TableLazyLoadEvent) {
-    console.warn(event);
-    this.loading = true;
+  onCreate(event: any): void {
+    this.ref = this.dialogService.open(ClientFormComponent, {
+      header: 'Ciar novo cliente',
+      width: '50vw',
+      modal: true,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      },
+    });
+    this.ref.onClose.subscribe(r => {
+      const {data, error} = r;
+      if (data) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Executed succefully' })
+      }
+      if (error) {
+        this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'Process failed' })
+      }
+    })
+  }
+
+  onRefresh($event: any) {
     this.subscriptions.push(
-      this.httpService.loadAllPaginated(event).subscribe((res) => {
-        this.list.set(res);
-        this.totalRecords = res.length;
-        this.loading = false;
-      })
+      this.store.refresh().subscribe()
     );
   }
 
-  select(rowData: any) {
-    console.log(rowData);
+  onEdit($event: any) {
+    this.ref = this.dialogService.open(ClientFormComponent, {
+      data: {
+        entity: $event
+      },
+      header: 'Update novo cliente',
+      width: '50vw',
+      modal: true,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      },
+    });
+    this.ref.onClose.subscribe(r => {
+      const {data, error} = r;
+      if (data) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Executed succefully' })
+      }
+      if (error) {
+        this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'Process failed' })
+      }
+    })
   }
 
   ngOnDestroy(): void {
