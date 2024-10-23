@@ -32,23 +32,23 @@ export class ClientFormComponent implements OnInit {
   dialogConfigService = inject(DynamicDialogConfig);
 
   constructor() {
-    const {entity} = this.dialogConfigService?.data;
+    const {data} = this.dialogConfigService;
 
     this.form = new FormGroup({
-      id: new FormControl(entity?.id, [Validators.required,]),
-      code: new FormControl(entity?.code, [Validators.required,]),
-      name: new FormControl(entity?.name, [Validators.required,]),
-      cpf: new FormControl(entity?.cpf, [Validators.required, cpf]),
+      id: new FormControl(data?.id),
+      code: new FormControl(data?.code, [Validators.required,]),
+      name: new FormControl(data?.name, [Validators.required,]),
+      cpf: new FormControl(data?.cpf, [Validators.required, cpf]),
       address: new FormGroup({
-        cep: new FormControl(entity?.address?.cep, [Validators.required,]),
-        logradouro: new FormControl(entity?.address?.logradouro, [Validators.required,]),
-        no: new FormControl(entity?.address?.no, [Validators.required,]),
-        bairro: new FormControl(entity?.address?.bairro, [Validators.required,]),
-        complemento: new FormControl(entity?.address?.complemento, [Validators.required,]),
-        cidade: new FormControl(entity?.address?.cidade, [Validators.required,])
+        cep: new FormControl(data?.address?.cep, [Validators.required,]),
+        logradouro: new FormControl(data?.address?.logradouro, [Validators.required,]),
+        no: new FormControl(data?.address?.no, [Validators.required,]),
+        bairro: new FormControl(data?.address?.bairro, [Validators.required,]),
+        complemento: new FormControl(data?.address?.complemento, [Validators.required,]),
+        cidade: new FormControl(data?.address?.cidade, [Validators.required,])
       }),
-      email: new FormControl(entity?.email, [Validators.required, Validators.email]),
-      birthday: new FormControl(entity?.birthday, [Validators.required])
+      email: new FormControl(data?.email, [Validators.required, Validators.email]),
+      birthday: new FormControl(data?.birthday, [Validators.required])
     })
   }
 
@@ -56,9 +56,11 @@ export class ClientFormComponent implements OnInit {
 
   }
 
-  onSave() {
-    !this.dialogConfigService.data ?
-        this.storeService.addFirebase(this.form.getRawValue()).pipe(
+  onSave(): void {
+    // omit id on creation
+    const {id, ...restProps} = this.form.getRawValue();
+    !this.dialogConfigService?.data ?
+        this.storeService.addFirebase(restProps).pipe(
           catchError((error) => {
             this.ref.close({data: null, error});
             return EMPTY;
@@ -77,7 +79,7 @@ export class ClientFormComponent implements OnInit {
         });
   }
 
-  onAbort() {
+  onAbort(): void {
     this.ref.close({data: null});
   }
 }

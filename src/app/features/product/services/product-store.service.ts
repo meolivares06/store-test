@@ -3,22 +3,24 @@ import {Client} from '@feat/client/client.model';
 import {ClientFirebaseService} from '@feat/client/services/client-firebase.service';
 import {Observable, of, switchMap, tap} from 'rxjs';
 import {StoreService} from '@app/shared/components/base-crud/basecrud.model';
+import {Product} from '@feat/product/product.model';
+import {ProductFirebaseService} from '@feat/product/services/product-firebase.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClientStoreService implements StoreService<Client> {
-  firebaseService = inject(ClientFirebaseService);
-  list = signal<Client[]>([]);
+export class ProductStoreService implements StoreService<Product> {
+  firebaseService = inject(ProductFirebaseService);
+  list = signal<Product[]>([]);
 
   constructor() { }
 
-  addList(items: Client[]): void {
+  addList(items: Product[]): void {
     this.list.update(l => [...items]);
   }
 
-  add(item: Client): void {
+  add(item: Product): void {
     this.list.update(l => [...l, item]);
   }
 
@@ -26,7 +28,7 @@ export class ClientStoreService implements StoreService<Client> {
     this.list.update(l => l.filter(item => item.id !== id))
   }
 
-  update(client: Client): void {
+  update(client: Product): void {
     this.list.update(l => l.map(item => {
       if (item.id === client.id) {
         return client;
@@ -56,13 +58,13 @@ export class ClientStoreService implements StoreService<Client> {
     );
   }
 
-  getFirebase(): Observable<Client[]> {
+  getFirebase(): Observable<Product[]> {
     return this.firebaseService.get().pipe(
       tap(l => this.addList(l))
     );
   }
 
-  refresh(): Observable<Client[]> {
+  refresh(): Observable<Product[]> {
     return of([]).pipe(
       switchMap(() => this.firebaseService.get()),
       tap(l => this.list.set(l)),

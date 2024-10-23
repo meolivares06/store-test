@@ -1,0 +1,27 @@
+<form [formGroup]="form" (ngSubmit)="onSave()" class="flex flex-column gap-3">
+  <div class="grid">
+    <div class="col-12 md:col-4">
+      <div class="flex flex-column gap-2">
+        <label for="code">Codigo de Identificacion</label>
+        <input pInputText id="code" aria-describedby="code-help" formControlName="code" />
+      </div>
+    </div>
+    <div class="col-12 md:col-4">
+      <div class="flex flex-column gap-2">
+        <label for="name">Nome</label>
+        <input pInputText id="name" aria-describedby="code-help" formControlName="name" />
+      </div>
+    </div>
+    <div class="col-12 md:col-4">
+      <div class="flex flex-column gap-2">
+        <label for="name">Valor</label>
+        <p-inputNumber formControlName="value" size="11" id="value" [maxFractionDigits]="2" currency="BRL" id="billing" locale="pt-BR" mode="currency"></p-inputNumber>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-content-end gap-2">
+    <p-button label="Cancel" severity="secondary" (onClick)="onAbort()" />
+    <p-button label="Save" (onClick)="onSave()" [disabled]="form.invalid"/>
+  </div>
+</form>

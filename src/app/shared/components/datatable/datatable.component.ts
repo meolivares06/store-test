@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, ContentChildren, Input, Output, QueryList, EventEmitter} from '@angular/core';
-import {CurrencyPipe, DatePipe, DecimalPipe, JsonPipe, NgTemplateOutlet} from '@angular/common';
+import {ChangeDetectionStrategy, Component, ContentChildren, EventEmitter, Input, Output, QueryList} from '@angular/core';
+import {CurrencyPipe, DatePipe, DecimalPipe, NgTemplateOutlet} from '@angular/common';
 
 import {Button} from 'primeng/button';
 import {ConfirmationService, PrimeTemplate} from 'primeng/api';
@@ -11,6 +11,7 @@ import {TableRowDirective} from '@app/shared/components/datatable/directives/tab
 import {RowTemplatePipe} from '@app/shared/components/datatable/pipes/row-template.pipe';
 import {CepPipe, CpfCnpjPipe} from '@app/core/pipes/';
 import {ClientStoreService} from '@feat/client/services/client-store.service';
+import {StoreService} from '@app/shared/components/base-crud/basecrud.model';
 
 
 /** Generic component for tables
@@ -27,7 +28,8 @@ import {ClientStoreService} from '@feat/client/services/client-store.service';
     DecimalPipe,
     DatePipe,
     CepPipe,
-    CpfCnpjPipe
+    CpfCnpjPipe,
+    CurrencyPipe
   ],
   templateUrl: './datatable.component.html',
   styleUrl: './datatable.component.scss',
@@ -41,12 +43,12 @@ export class DatatableComponent {
   @Input() dialogService: DialogService;
   @Input() confirmationService: ConfirmationService;
   @Input() ref: DynamicDialogRef | undefined;
-  @Input() storeService: ClientStoreService;
+  @Input() storeService: StoreService<any>;
   @Input() action = true;
 
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
-  @Output() onCreate = new EventEmitter<any>();
+  @Output() onCreate = new EventEmitter<boolean>();
   @Output() onRefresh = new EventEmitter<any>();
 
   @ContentChildren(TableRowDirective) contentChildren!: QueryList<TableRowDirective>;

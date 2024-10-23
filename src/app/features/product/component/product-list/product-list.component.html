@@ -1,1 +1,8 @@
-<p>product-list works!</p>
+  <p-toast/>
+  <app-datatable [cols]="cols" [value]="store.list()" [title]="'Products'" [dialogService]="dialogService" [ref]="ref"
+                 [confirmationService]="confirmationService" [storeService]="store" [showDeleteAction]="true" [showEditAction]="true"
+                 (onRefresh)="onRefresh()" (onDelete)="onDelete($event)" (onCreate)="onCreate()" (onEdit)="onEdit($event)">
+    <!-- Custom renderer for address field -->
+  </app-datatable>
+
+  <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {JsonPipe} from '@angular/common';
-import {catchError, EMPTY, Subscription, tap} from 'rxjs';
+import {catchError, EMPTY, tap} from 'rxjs';
 
-import {TableLazyLoadEvent, TableModule} from 'primeng/table';
+import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
-import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {DialogService} from 'primeng/dynamicdialog';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ToastModule} from 'primeng/toast';
@@ -15,6 +15,8 @@ import {DatatableComponent} from '@app/shared/components/datatable/datatable.com
 import {TableRowDirective} from '@app/shared/components/datatable/directives/table-row.directive';
 import {CepPipe} from '@app/core/pipes';
 import {ClientStoreService} from '@feat/client/services/client-store.service';
+import {BaseCrudComponent} from '@app/shared/components/base-crud/base-crud.component';
+import {Client} from '@feat/client/client.model';
 
 
 @Component({
@@ -22,7 +24,6 @@ import {ClientStoreService} from '@feat/client/services/client-store.service';
   standalone: true,
   imports: [
     TableModule,
-    JsonPipe,
     Button,
     DatatableComponent,
     TableRowDirective,
@@ -35,19 +36,11 @@ import {ClientStoreService} from '@feat/client/services/client-store.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DialogService, ConfirmationService, MessageService]
 })
-export class ClientListComponent implements OnDestroy {
-  store = inject(ClientStoreService);
-  dialogService = inject(DialogService);
-  confirmationService = inject(ConfirmationService);
-  messageService = inject(MessageService);
+export class ClientListComponent extends BaseCrudComponent<Client> {
+  override store = inject(ClientStoreService);
+  override cols = cols;
 
-  cols = cols;
-
-
-  ref: DynamicDialogRef | undefined;
-  subscriptions: Subscription[] = [];
-
-  onDelete(rowData: any) {
+  override onDelete(rowData: Client) {
 
     this.confirmationService.confirm({
       message: 'Are you sure that you want to proceed?',
@@ -71,7 +64,7 @@ export class ClientListComponent implements OnDestroy {
 
   }
 
-  onCreate(event: any): void {
+  override onCreate(): void {
     this.ref = this.dialogService.open(ClientFormComponent, {
       header: 'Ciar novo cliente',
       width: '50vw',
@@ -82,27 +75,27 @@ export class ClientListComponent implements OnDestroy {
       },
     });
     this.ref.onClose.subscribe(r => {
-      const {data, error} = r;
-      if (data) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Executed succefully' })
-      }
-      if (error) {
-        this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'Process failed' })
+      if(r) {
+        const {data, error} = r;
+        if (data) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Executed succefully' })
+        }
+        if (error) {
+          this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'Process failed' })
+        }
       }
     })
   }
 
-  onRefresh($event: any) {
+  override onRefresh() {
     this.subscriptions.push(
       this.store.refresh().subscribe()
     );
   }
 
-  onEdit($event: any) {
+  override onEdit($event: Client) {
     this.ref = this.dialogService.open(ClientFormComponent, {
-      data: {
-        entity: $event
-      },
+      data: $event,
       header: 'Update novo cliente',
       width: '50vw',
       modal: true,
@@ -112,17 +105,17 @@ export class ClientListComponent implements OnDestroy {
       },
     });
     this.ref.onClose.subscribe(r => {
-      const {data, error} = r;
-      if (data) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Executed succefully' })
+      if(r) {
+        const {data, error} = r;
+        if (data) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Executed succefully' })
+        }
+        if (error) {
+          this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'Process failed' })
+        }
       }
-      if (error) {
-        this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'Process failed' })
-      }
+
     })
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(s => s.unsubscribe());
-  }
 }

@@ -1,5 +1,10 @@
 <p-table [columns]="cols" [value]="value" [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-striped" [paginator]="true"
          [rows]="15" selectionMode="single" [(selection)]="selectedItem" >
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [colSpan]="cols.length" class="text-center">Sem dados. Agrega un elemento novo.</td>
+    </tr>
+  </ng-template>
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
       {{ title }}
@@ -80,6 +85,9 @@
   }
   @if (data?.pipe === 'email') {
     <a [href]="'mailto:' + data.value">{{ data.value }}</a>
+  }
+  @if(data?.pipe === 'currency') {
+    {{ data.value ? (data.value | currency) : '-'}}
   }
 
 </ng-template>

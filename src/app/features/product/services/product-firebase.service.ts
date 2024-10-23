@@ -1,31 +1,31 @@
 import {inject, Injectable} from '@angular/core';
 import {addDoc, collection, collectionData, deleteDoc, doc, Firestore, setDoc} from '@angular/fire/firestore';
-import {Client} from '@feat/client/client.model';
 import {catchError, from, map, Observable, of} from 'rxjs';
-import {clientAdapter} from '@app/core/adapters';
 import {FirebaseService} from '@app/shared/components/base-crud/basecrud.model';
+import {Product} from '@feat/product/product.model';
+import {productAdapter} from '@app/core/adapters';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClientFirebaseService implements FirebaseService<Client> {
+export class ProductFirebaseService implements FirebaseService<Product> {
   firestore = inject(Firestore);
-  basePath = 'client';
+  basePath = 'product';
   clientCollection = collection(this.firestore, this.basePath);
 
   constructor() {
   }
 
-  get(): Observable<Client[]> {
+  get(): Observable<Product[]> {
     return collectionData(this.clientCollection, {idField: 'id'}).pipe(
       map(document => {
-        return clientAdapter(document as (unknown & { birthday: any })[]);
+        return productAdapter((document as unknown[]));
       }),
       catchError(() => of([]))
     );
   }
 
-  add(data: Client): Observable<string> {
+  add(data: Product): Observable<string> {
     const promise = addDoc(this.clientCollection, data).then((p) => p.id);
     return from(promise);
   }
@@ -36,14 +36,9 @@ export class ClientFirebaseService implements FirebaseService<Client> {
     return from(promise);
   }
 
-  update(item: Client): Observable<void> {
+  update(item: Product): Observable<void> {
     const ref = doc(this.firestore, `${this.basePath}/${item.id}`);
     const promise = setDoc(ref, item);
     return from(promise);
   }
-
-  // getByID(id: string) {
-  //   const ref = doc(this.firestore, `${this.basePath}/${id}`);
-  //   return docData(ref, { idField: 'id' }) as Observable<CultoInformation>;
-  // }
 }

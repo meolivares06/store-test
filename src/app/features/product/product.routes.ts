@@ -1,8 +1,9 @@
 import {Routes} from '@angular/router';
-import {ProductListComponent} from '@feat/product/component/product-list/product-list.component';
+import {ProductComponent} from '@feat/product/product/product.component';
+import {productResolver} from '@feat/product/resolver/product.resolver';
 
 export const ProductRoutes: Routes = [
   {
-    path: '', component: ProductListComponent
+    path: '', component: ProductComponent, resolve: { data: productResolver }
   }
 ];

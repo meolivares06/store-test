@@ -1,11 +1,12 @@
-<p-toast />
+<p-toast/>
 <app-datatable [cols]="cols" [value]="store.list()" [title]="'Clients'" [dialogService]="dialogService" [ref]="ref"
                [confirmationService]="confirmationService" [storeService]="store" [showDeleteAction]="true" [showEditAction]="true"
-               (onRefresh)="onRefresh($event)" (onDelete)="onDelete($event)" (onCreate)="onCreate($event)" (onEdit)="onEdit($event)">
+               (onRefresh)="onRefresh()" (onDelete)="onDelete($event)" (onCreate)="onCreate()" (onEdit)="onEdit($event)">
   <!-- Custom renderer for address field -->
   <ng-template let-data tableRow="address">
     <span>
-      {{ data.address.cep | cep }}, {{data.address.logradouro}}, {{data.address.no}}, {{data.address.bairro}}, {{data.address.complemento}}, {{data.address.cidade}}
+      {{ data.address.cep | cep }}, {{ data.address.logradouro }}, {{ data.address.no }}, {{ data.address.bairro }}, {{ data.address.complemento }}
+      , {{ data.address.cidade }}
     </span>
   </ng-template>
 </app-datatable>
