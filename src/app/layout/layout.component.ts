@@ -4,7 +4,7 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MenuItem} from 'primeng/api';
 import {Button} from 'primeng/button';
 
-import {appTitle, menuData} from './data';
+import {appTitle, menuData} from './layout.data';
 
 @Component({
   selector: 'app-layout',

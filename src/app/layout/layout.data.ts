@@ -1,4 +1,5 @@
 // For fixed data purposes
+import { PrimeIcons } from 'primeng/api';
 
 export const appTitle = 'Store Test';
 
@@ -6,17 +7,17 @@ export const menuData = [
   {
 
     label: 'Clients',
-    icon: 'pi pi-users',
+    icon: PrimeIcons.USERS,
     url: 'client'
   },
   {
     label: 'Produts',
-    icon: 'pi pi-warehouse',
+    icon: PrimeIcons.WAREHOUSE,
     url: 'product'
   },
   {
     label: 'Vendas',
-    icon: 'pi pi-money-bill',
+    icon: PrimeIcons.MONEY_BILL,
     url: 'sell'
   }
 ];
