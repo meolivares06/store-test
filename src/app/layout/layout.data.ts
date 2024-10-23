@@ -11,7 +11,7 @@ export const menuData = [
     url: 'client'
   },
   {
-    label: 'Produts',
+    label: 'Products',
     icon: PrimeIcons.WAREHOUSE,
     url: 'product'
   },
