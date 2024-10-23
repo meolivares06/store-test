@@ -26,6 +26,7 @@
     "baseUrl": "./",
     "paths": {
       "@app/*": ["src/app/*"],
+      "@feat/*": ["src/app/features/*"],
     }
   },
   "angularCompilerOptions": {

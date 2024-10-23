@@ -4,8 +4,9 @@
       <span class="pl-2 md:pl-4">{{ title }}</span>
       <div class="menu ml-auto pr-2  md:pr-4">
         <ul class="list-none flex gap-3 md:gap-4">
-          @for (item of menuItems; track item.id) {
-            <li><a routerLink="{{item.url}}" class="text-white no-underline"><i class="pi {{item.icon}}"></i> {{ item.label }}</a></li>
+          @for (item of menuItems; track item.label) {
+            <li><a routerLink="{{item.url}}" class="text-white no-underline" routerLinkActive="activemodule">
+              <i class="pi {{item.icon}}"></i> {{ item.label }}</a></li>
           }
         </ul>
       </div>
