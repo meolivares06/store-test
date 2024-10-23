@@ -1,1 +1,18 @@
-<p>sell-list works!</p>
+<p-toast/>
+<app-datatable [cols]="cols" [value]="store.list()" [title]="'Vendas'" [dialogService]="dialogService" [ref]="ref"
+               [confirmationService]="confirmationService" [storeService]="store" [showDeleteAction]="true" [showEditAction]="true"
+               (onRefresh)="onRefresh()" (onDelete)="onDelete($event)" (onCreate)="onCreate()" (onEdit)="onEdit($event)">
+  <!-- Custom renderer for address field -->
+  <ng-template let-data tableRow="clientId">
+    <span>
+      {{ clientStoreService.getById(data.clientId)?.name ?? '-'}}
+    </span>
+  </ng-template>
+  <ng-template let-data tableRow="productId">
+    <span>
+      {{ productStoreService.getById(data.productId)?.name ?? '-' }}
+    </span>
+  </ng-template>
+</app-datatable>
+
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

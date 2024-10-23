@@ -70,4 +70,8 @@ export class ProductStoreService implements StoreService<Product> {
       tap(l => this.list.set(l)),
     )
   }
+
+  getById(productId: string | undefined): Product | undefined {
+    return this.list().find(l => l.id === productId);
+  }
 }

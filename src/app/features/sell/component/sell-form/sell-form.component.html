@@ -1,0 +1,39 @@
+<form [formGroup]="form" (ngSubmit)="onSave()" class="flex flex-column gap-3">
+  <div class="grid">
+    <div class="col-12 md:col-4">
+      <div class="flex flex-column gap-2">
+        <label for="code">Codigo de Identificacion</label>
+        <input pInputText id="code" aria-describedby="code-help" formControlName="code" />
+      </div>
+    </div>
+    <div class="col-12 md:col-4">
+      <div class="flex flex-column gap-2">
+        <label for="creationDate">Creation Date</label>
+        <p-calendar styleClass="w-full" appendTo="body" id="creationDate" aria-describedby="creationDate-help" formControlName="creationDate" />
+      </div>
+    </div>
+    <div class="col-12 md:col-4">
+      <div class="flex flex-column gap-2">
+        <label for="clientId">Client</label>
+        <p-dropdown  styleClass="w-full"  [options]="clientList" optionLabel="name" optionValue="id" appendTo="body" id="clientId" aria-describedby="clientId-help" formControlName="clientId" />
+      </div>
+    </div>
+    <div class="col-12 md:col-4">
+      <div class="flex flex-column gap-2">
+        <label for="productId">Product</label>
+        <p-dropdown styleClass="w-full" [options]="productList" optionValue="id" optionLabel="name" appendTo="body" id="productId" aria-describedby="productId-help" formControlName="productId" />
+      </div>
+    </div>
+    <div class="col-12 md:col-4">
+      <div class="flex flex-column gap-2">
+        <label for="total">Total</label>
+        <p-inputNumber formControlName="total" size="11" id="value" [maxFractionDigits]="2" currency="BRL" id="total" locale="pt-BR" mode="currency"></p-inputNumber>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-content-end gap-2">
+    <p-button label="Cancel" severity="secondary" (onClick)="onAbort()" />
+    <p-button label="Save" (onClick)="onSave()" [disabled]="form.invalid"/>
+  </div>
+</form>

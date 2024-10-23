@@ -1,8 +1,9 @@
 import {Routes} from '@angular/router';
-import {SellListComponent} from '@feat/sell/component/sell-list/sell-list.component';
+import {SellComponent} from '@feat/sell/sell/sell.component';
+import {sellResolver} from '@feat/sell/resolver/sell.resolver';
 
 export const SellRoutes: Routes = [
   {
-    path: '', component: SellListComponent
+    path: '', component: SellComponent, resolve: { data: sellResolver }
   }
 ];
