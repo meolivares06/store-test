@@ -1,7 +1,6 @@
-import {ChangeDetectionStrategy, Component, effect, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {catchError, EMPTY, of, shareReplay, switchAll, switchMap} from 'rxjs';
+import {EMPTY, of, shareReplay, switchMap} from 'rxjs';
 import {SellStoreService} from '@feat/sell/services/sell-store.service';
 import {Button} from 'primeng/button';
 import {InputNumberModule} from 'primeng/inputnumber';
@@ -53,16 +52,24 @@ export class SellFormComponent extends BaseFormComponent<Sell> {
       productId: new FormControl(data?.productId, [Validators.required,]),
       total: new FormControl(data?.total, [Validators.required]),
     });
-    of(EMPTY).pipe(
-      switchMap(() => this.clientStoreService.getFirebase()),
-      shareReplay(),
-      takeUntilDestroyed()
-    ).subscribe();
+    if (this.clientStoreService) {
+      of(EMPTY).pipe(
+        switchMap(() => this.clientStoreService.getFirebase()),
+        shareReplay(),
+        takeUntilDestroyed()
+      ).subscribe();
+    } else {
+      console.warn('ClientStoreService not initialized')
+    }
 
-    of(EMPTY).pipe(
+    if (this.productStoreService) {
+      of(EMPTY).pipe(
       switchMap(() => this.productStoreService.getFirebase()),
       shareReplay(),
       takeUntilDestroyed()
     ).subscribe();
+  } else {
+  console.warn('ClientStoreService not initialized')
+}
   }
 }

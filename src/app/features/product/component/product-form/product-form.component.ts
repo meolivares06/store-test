@@ -29,7 +29,6 @@ export class ProductFormComponent  extends BaseFormComponent<Product> {
 
   constructor() {
     super();
-    const {data} = this.dialogConfigService;
   }
 
   override initForm(data?: any) {
