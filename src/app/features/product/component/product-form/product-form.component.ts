@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {catchError, EMPTY} from 'rxjs';
 import {ProductStoreService} from '@feat/product/services/product-store.service';
 import {Button} from 'primeng/button';
 import {CalendarModule} from 'primeng/calendar';
 import {InputMaskModule} from 'primeng/inputmask';
 import {InputTextModule} from 'primeng/inputtext';
 import {PaginatorModule} from 'primeng/paginator';
+import {BaseFormComponent} from '@app/shared/components/base-form/base-form.component';
+import {Product} from '@feat/product/product.model';
 
 @Component({
   selector: 'app-product-form',
@@ -24,47 +24,20 @@ import {PaginatorModule} from 'primeng/paginator';
   styleUrl: './product-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductFormComponent {
-  form: FormGroup;
-  storeService = inject(ProductStoreService);
-  ref = inject(DynamicDialogRef);
-  dialogConfigService = inject(DynamicDialogConfig);
+export class ProductFormComponent  extends BaseFormComponent<Product> {
+  override storeService = inject(ProductStoreService);
 
   constructor() {
+    super();
     const {data} = this.dialogConfigService;
+  }
 
+  override initForm(data?: any) {
     this.form = new FormGroup({
       id: new FormControl(data?.id),
       code: new FormControl(data?.code, [Validators.required,]),
       name: new FormControl(data?.name, [Validators.required,]),
       value: new FormControl(data?.value, [Validators.required]),
     })
-  }
-
-  onSave(): void {
-    // omit id on creation
-    const {id, ...restProps} = this.form.getRawValue();
-    !this.dialogConfigService?.data ?
-      this.storeService.addFirebase(restProps).pipe(
-        catchError((error) => {
-          this.ref.close({data: null, error});
-          return EMPTY;
-        })
-      ).subscribe(r => {
-        this.ref.close({data: {id:r, ...this.form.getRawValue()}});
-      })
-      :
-      this.storeService.updateFirebase(this.form.getRawValue()).pipe(
-        catchError((error) => {
-          this.ref.close({data: null, error});
-          return EMPTY;
-        })
-      ).subscribe(r => {
-        this.ref.close({data: {id:r, ...this.form.getRawValue()}});
-      });
-  }
-
-  onAbort() {
-    this.ref.close({data: null});
   }
 }

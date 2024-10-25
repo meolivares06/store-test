@@ -13,6 +13,8 @@ import {Client} from '@feat/client/client.model';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Product} from '@feat/product/product.model';
 import {ProductStoreService} from '@feat/product/services/product-store.service';
+import {BaseFormComponent} from '@app/shared/components/base-form/base-form.component';
+import {Sell} from '@feat/sell/sell.model';
 
 @Component({
   selector: 'app-sell-form',
@@ -29,11 +31,8 @@ import {ProductStoreService} from '@feat/product/services/product-store.service'
   styleUrl: './sell-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SellFormComponent implements OnInit {
-  form: FormGroup;
-  storeService = inject(SellStoreService);
-  ref = inject(DynamicDialogRef);
-  dialogConfigService = inject(DynamicDialogConfig);
+export class SellFormComponent extends BaseFormComponent<Sell> {
+  override storeService = inject(SellStoreService);
   clientStoreService = inject(ClientStoreService);
   productStoreService = inject(ProductStoreService);
   clientList: Client[] = [];
@@ -42,8 +41,10 @@ export class SellFormComponent implements OnInit {
   fillProductList = effect(() => this.productList = this.productStoreService.list())
 
   constructor() {
-    const {data} = this.dialogConfigService;
+    super();
+  }
 
+  override initForm(data?: any) {
     this.form = new FormGroup({
       id: new FormControl(data?.id),
       code: new FormControl(data?.code, [Validators.required,]),
@@ -63,36 +64,5 @@ export class SellFormComponent implements OnInit {
       shareReplay(),
       takeUntilDestroyed()
     ).subscribe();
-  }
-
-  ngOnInit(): void {
-
-  }
-
-  onSave(): void {
-    // omit id on creation
-    const {id, ...restProps} = this.form.getRawValue();
-    !this.dialogConfigService?.data ?
-      this.storeService.addFirebase(restProps).pipe(
-        catchError((error) => {
-          this.ref.close({data: null, error});
-          return EMPTY;
-        })
-      ).subscribe(r => {
-        this.ref.close({data: {id:r, ...this.form.getRawValue()}});
-      })
-      :
-      this.storeService.updateFirebase(this.form.getRawValue()).pipe(
-        catchError((error) => {
-          this.ref.close({data: null, error});
-          return EMPTY;
-        })
-      ).subscribe(r => {
-        this.ref.close({data: {id:r, ...this.form.getRawValue()}});
-      });
-  }
-
-  onAbort() {
-    this.ref.close({data: null});
   }
 }

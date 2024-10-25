@@ -1,14 +1,13 @@
-import {ChangeDetectionStrategy, Component, inject, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {InputTextModule} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
 import {cpf} from '@app/core/validators/cpf.validator';
 import {InputMaskModule} from 'primeng/inputmask';
 import {CalendarModule} from 'primeng/calendar';
-import {ClientFirebaseService} from '@feat/client/services/client-firebase.service';
-import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {catchError, EMPTY} from 'rxjs';
 import {ClientStoreService} from '@feat/client/services/client-store.service';
+import {BaseFormComponent} from '@app/shared/components/base-form/base-form.component';
+import {Client} from '@feat/client/client.model';
 
 @Component({
   selector: 'app-client-form',
@@ -25,15 +24,14 @@ import {ClientStoreService} from '@feat/client/services/client-store.service';
   styleUrl: './client-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ClientFormComponent implements OnInit {
-  form: FormGroup;
-  storeService = inject(ClientStoreService);
-  ref = inject(DynamicDialogRef);
-  dialogConfigService = inject(DynamicDialogConfig);
+export class ClientFormComponent extends BaseFormComponent<Client> {
+  override storeService= inject(ClientStoreService);
 
   constructor() {
-    const {data} = this.dialogConfigService;
+    super();
+  }
 
+  override initForm(data?: any): void {
     this.form = new FormGroup({
       id: new FormControl(data?.id),
       code: new FormControl(data?.code, [Validators.required,]),
@@ -50,36 +48,5 @@ export class ClientFormComponent implements OnInit {
       email: new FormControl(data?.email, [Validators.required, Validators.email]),
       birthday: new FormControl(data?.birthday, [Validators.required])
     })
-  }
-
-  ngOnInit(): void {
-
-  }
-
-  onSave(): void {
-    // omit id on creation
-    const {id, ...restProps} = this.form.getRawValue();
-    !this.dialogConfigService?.data ?
-        this.storeService.addFirebase(restProps).pipe(
-          catchError((error) => {
-            this.ref.close({data: null, error});
-            return EMPTY;
-          })
-        ).subscribe(r => {
-          this.ref.close({data: {id:r, ...this.form.getRawValue()}});
-        })
-      :
-        this.storeService.updateFirebase(this.form.getRawValue()).pipe(
-          catchError((error) => {
-            this.ref.close({data: null, error});
-            return EMPTY;
-          })
-        ).subscribe(r => {
-          this.ref.close({data: {id:r, ...this.form.getRawValue()}});
-        });
-  }
-
-  onAbort(): void {
-    this.ref.close({data: null});
   }
 }
