@@ -7,7 +7,11 @@ import {Sell} from '@feat/sell/sell.model';
 export const sellResolver: ResolveFn<Sell[]> = (route, state) => {
   const store = inject(SellStoreService);
 
-  return firstValueFrom(of([]).pipe(
-    switchMap(() => store.getFirebase())
-  ));
+  if (store.list().length > 0) {
+    return store.list();
+  } else {
+    return firstValueFrom(of([]).pipe(
+      switchMap(() => store.getFirebase())
+    ));
+  }
 };

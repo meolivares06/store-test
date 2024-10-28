@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SellStoreService} from '@feat/sell/services/sell-store.service';
 import {Button} from 'primeng/button';
@@ -10,7 +10,8 @@ import {Client} from '@feat/client/client.model';
 import {Product} from '@feat/product/product.model';
 import {BaseFormComponent} from '@app/shared/components/base-form/base-form.component';
 import {Sell} from '@feat/sell/sell.model';
-import {ActivatedRoute} from '@angular/router';
+import {ClientStoreService} from '@feat/client/services/client-store.service';
+import {ProductStoreService} from '@feat/product/services/product-store.service';
 
 @Component({
   selector: 'app-sell-form',
@@ -27,17 +28,21 @@ import {ActivatedRoute} from '@angular/router';
   styleUrl: './sell-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SellFormComponent extends BaseFormComponent<Sell> {
+export class SellFormComponent extends BaseFormComponent<Sell> implements OnInit {
   override storeService = inject(SellStoreService);
+  clientStoreService = inject(ClientStoreService);
+  productStoreService = inject(ProductStoreService);
 
-  route = inject(ActivatedRoute)
   clientList: Client[] = [];
   productList: Product[] = [];
 
   constructor() {
     super();
-    this.clientList = this.route.snapshot.data['clients'];
-    this.productList = this.route.snapshot.data['products'];
+  }
+
+  ngOnInit(): void {
+    this.clientList = this.clientStoreService.list();
+    this.productList = this.productStoreService.list();
   }
 
   override initForm(data?: any) {
@@ -50,4 +55,19 @@ export class SellFormComponent extends BaseFormComponent<Sell> {
       total: new FormControl(data?.total, [Validators.required]),
     });
   }
+
+  // another approach for loading the data from the others modules
+  // requestOthersData(): void {
+  //   of(EMPTY).pipe(
+  //     switchMap(() => this.clientStoreService.getFirebase()),
+  //     shareReplay(),
+  //     takeUntilDestroyed()
+  //   ).subscribe();
+  //
+  //   of(EMPTY).pipe(
+  //     switchMap(() => this.productStoreService.getFirebase()),
+  //     shareReplay(),
+  //     takeUntilDestroyed()
+  //   ).subscribe();
+  // }
 }
