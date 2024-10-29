@@ -4,8 +4,9 @@ export const layoutRoutes: Routes = [
   {path: '', redirectTo: '/client', pathMatch: 'full'},
   {
     path: '',
-    loadComponent: () => import('@app/layout/layout.component').then(c => c.LayoutComponent),
-    children: [
+    loadComponent: () => import('@app/layout/layout.component').then(c => c.LayoutComponent)
+  },
+
       {
         path: 'product',
         loadChildren: () => import('@feat/product/product.routes').then(r => r.ProductRoutes)
@@ -18,6 +19,6 @@ export const layoutRoutes: Routes = [
         path: 'sell',
         loadChildren: () => import('@feat/sell/sell.routes').then(r => r.SellRoutes)
       }
-    ]
-  }
+
+
 ];

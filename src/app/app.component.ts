@@ -5,7 +5,6 @@ import { PrimeNGConfig } from 'primeng/api';
 
 import {LayoutComponent} from '@app/layout/layout.component';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -15,6 +14,7 @@ import {LayoutComponent} from '@app/layout/layout.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
+
   constructor(private primengConfig: PrimeNGConfig) {}
 
   ngOnInit() {
