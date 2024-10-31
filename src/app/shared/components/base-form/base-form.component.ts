@@ -30,24 +30,29 @@ export class BaseFormComponent<T> {
   }
 
   onSave(): void {
+    this.storeService.loading = true;
     // omit id on creation
     const {id, ...restProps} = this.form.getRawValue();
     !this.dialogConfigService?.data ?
       this.storeService.addFirebase(restProps).pipe(
         catchError((error) => {
+          this.storeService.loading = false;
           this.ref.close({data: null, error});
           return EMPTY;
         })
       ).subscribe(r => {
+        this.storeService.loading = false;
         this.ref.close({data: {id:r, ...this.form.getRawValue()}});
       })
       :
       this.storeService.updateFirebase(this.form.getRawValue()).pipe(
         catchError((error) => {
+          this.storeService.loading = false;
           this.ref.close({data: null, error});
           return EMPTY;
         })
       ).subscribe(r => {
+        this.storeService.loading = false;
         this.ref.close({data: {id:r, ...this.form.getRawValue()}});
       });
   }

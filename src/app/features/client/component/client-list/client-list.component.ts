@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {JsonPipe} from '@angular/common';
 import {catchError, EMPTY, tap} from 'rxjs';
 
 import {TableModule} from 'primeng/table';
@@ -47,10 +46,15 @@ export class ClientListComponent extends BaseCrudComponent<Client> {
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        this.store.loading = true;
         this.subscriptions.push(
           this.store.deleteFirebase(rowData).pipe(
-            tap(() => this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Executed succefully' })),
+            tap(() => {
+              this.store.loading = false;
+              this.messageService.add({severity: 'success', summary: 'Success', detail: 'Executed succefully'});
+            }),
             catchError(() => {
+              this.store.loading = false;
               this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'Process failed' });
               return EMPTY;
             }),

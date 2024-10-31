@@ -31,57 +31,61 @@
         <p-calendar id="birthday" aria-describedby="birthday-help" formControlName="birthday" appendTo="body" />
       </div>
     </div>
-  </div>
-  <div class="grid">
 
-  </div>
-  <fieldset formGroupName="address">
-    <legend>Endereço</legend>
-    <div class="grid">
-      <div class="col-12 md:col-4">
-        <div class="flex flex-column gap-2">
-          <label for="cep">CEP</label>
-          <input pInputText id="cep" aria-describedby="cep-help" formControlName="cep" />
+    <div class="col-12">
+      <fieldset formGroupName="address">
+        <legend>Endereço</legend>
+        <div class="grid">
+          <div class="col-12 md:col-4">
+            <div class="flex flex-column gap-2">
+              <label for="cep">CEP</label>
+              <input pInputText id="cep" aria-describedby="cep-help" formControlName="cep" />
+            </div>
+          </div>
+          <div class="col-12 md:col-4">
+            <div class="flex flex-column gap-2">
+              <label for="name">Logradouro</label>
+              <input pInputText id="logradouro" aria-describedby="code-help" formControlName="logradouro" />
+            </div>
+          </div>
+          <div class="col-12 md:col-4">
+            <div class="flex flex-column gap-2">
+              <label for="name">Numero</label>
+              <input pInputText id="no" aria-describedby="code-help" formControlName="no" />
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-12 md:col-4">
-        <div class="flex flex-column gap-2">
-          <label for="name">Logradouro</label>
-          <input pInputText id="logradouro" aria-describedby="code-help" formControlName="logradouro" />
+        <div class="grid">
+          <div class="col-12 md:col-4">
+            <div class="flex flex-column gap-2">
+              <label for="name">Bairro</label>
+              <input pInputText id="bairro" aria-describedby="bairro-help" formControlName="bairro" />
+            </div>
+          </div>
+          <div class="col-12 md:col-4">
+            <div class="flex flex-column gap-2">
+              <label for="name">Complemento</label>
+              <input pInputText id="complemento" aria-describedby="complemento-help" formControlName="complemento" />
+            </div>
+          </div>
+          <div class="col-12 md:col-4">
+            <div class="flex flex-column gap-2">
+              <label for="name">Cidade</label>
+              <input pInputText id="cidade" aria-describedby="cidade-help" formControlName="cidade" />
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-12 md:col-4">
-        <div class="flex flex-column gap-2">
-          <label for="name">Numero</label>
-          <input pInputText id="no" aria-describedby="code-help" formControlName="no" />
-        </div>
+
+      </fieldset>
+    </div>
+
+    <div class="col-12">
+      <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (onClick)="onAbort()" />
+        <p-button label="Save" (onClick)="onSave()" [disabled]="form.invalid"/>
       </div>
     </div>
-    <div class="grid">
-      <div class="col-12 md:col-4">
-        <div class="flex flex-column gap-2">
-          <label for="name">Bairro</label>
-          <input pInputText id="bairro" aria-describedby="bairro-help" formControlName="bairro" />
-        </div>
-      </div>
-      <div class="col-12 md:col-4">
-        <div class="flex flex-column gap-2">
-          <label for="name">Complemento</label>
-          <input pInputText id="complemento" aria-describedby="complemento-help" formControlName="complemento" />
-        </div>
-      </div>
-      <div class="col-12 md:col-4">
-        <div class="flex flex-column gap-2">
-          <label for="name">Cidade</label>
-          <input pInputText id="cidade" aria-describedby="cidade-help" formControlName="cidade" />
-        </div>
-      </div>
-    </div>
-
-  </fieldset>
-
-  <div class="flex justify-content-end gap-2">
-    <p-button label="Cancel" severity="secondary" (onClick)="onAbort()" />
-    <p-button label="Save" (onClick)="onSave()" [disabled]="form.invalid"/>
   </div>
 </form>
+<!--<app-local-spinner [elementRef]="formRef" [loading]="false"/>-->
+

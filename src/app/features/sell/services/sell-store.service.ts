@@ -11,6 +11,7 @@ import {SellFirebaseService} from '@feat/sell/services/sell-firebase.service';
 export class SellStoreService implements StoreService<Sell> {
   firebaseService = inject(SellFirebaseService);
   list = signal<Sell[]>([]);
+  loading = false;
 
   constructor() { }
 

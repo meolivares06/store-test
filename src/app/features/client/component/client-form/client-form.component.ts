@@ -8,6 +8,7 @@ import {CalendarModule} from 'primeng/calendar';
 import {ClientStoreService} from '@feat/client/services/client-store.service';
 import {BaseFormComponent} from '@app/shared/components/base-form/base-form.component';
 import {Client} from '@feat/client/client.model';
+import {LocalSpinnerComponent} from '@app/shared/components/local-spinner/local-spinner.component';
 
 @Component({
   selector: 'app-client-form',
@@ -18,7 +19,8 @@ import {Client} from '@feat/client/client.model';
     InputTextModule,
     Button,
     InputMaskModule,
-    CalendarModule
+    CalendarModule,
+    LocalSpinnerComponent
   ],
   templateUrl: './client-form.component.html',
   styleUrl: './client-form.component.scss',
