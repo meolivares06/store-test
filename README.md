@@ -1,5 +1,5 @@
 # Storetest
-<a href="https://store-test-psi.vercel.app">See In Action</a>
+<a href="https://store-test-psi.vercel.app" target="_blank">See In Action</a>
 
 ## Ecosystem
 <a href="https://angular.io" target="_blank" rel="noreferrer">
