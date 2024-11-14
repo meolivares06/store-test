@@ -29,8 +29,6 @@
   <img src="https://www.gstatic.com/devrel-devsite/prod/va0674a8db96513470826a6ecbe1af5bc068cadff9b5aed0477a70013be17d6e8/firebase/images/lockup.svg"  alt="firebase" width="116" height="32" />
 </a>
 
-Here’s the same project description translated into English:
-
 ---
 
 ### Project Description
