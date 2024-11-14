@@ -26,7 +26,7 @@
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="typescript" width="40" height="40"/>
 </a>
 <a href="https://(https://firebase.google.com/)" target="_blank" rel="noreferrer">
-  <img src="https://www.gstatic.com/devrel-devsite/prod/va0674a8db96513470826a6ecbe1af5bc068cadff9b5aed0477a70013be17d6e8/firebase/images/lockup.svg"  alt="firebase" width="40" height="40" />
+  <img src="https://www.gstatic.com/devrel-devsite/prod/va0674a8db96513470826a6ecbe1af5bc068cadff9b5aed0477a70013be17d6e8/firebase/images/lockup.svg"  alt="firebase" width="116" height="32" />
 </a>
 
 Here’s the same project description translated into English:
