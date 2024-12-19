@@ -9,6 +9,10 @@ export const clientResolver: ResolveFn<Client[]> = (route, state) => {
   const clientStore = inject(ClientStoreService);
 
   return firstValueFrom(of([]).pipe(
-    switchMap(() => clientStore.getFirebase())
+    switchMap(() => clientStore.getFirebase()),
+    catchError((error) => {
+      console.error('Error al resolver datos:', error);
+      return of([]); // Retorna un valor predeterminado en caso de error
+    })
   ));
 };
