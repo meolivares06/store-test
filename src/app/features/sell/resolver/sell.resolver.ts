@@ -8,6 +8,10 @@ export const sellResolver: ResolveFn<Sell[]> = (route, state) => {
   const store = inject(SellStoreService);
 
   return firstValueFrom(of([]).pipe(
-    switchMap(() => store.getFirebase())
+    switchMap(() => store.getFirebase()),
+    catchError((error) => {
+      console.error('Error al resolver datos:', error);
+      return of([]); // Retorna un valor predeterminado en caso de error
+    })
   ));
 };
