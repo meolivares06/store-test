@@ -8,6 +8,10 @@ export const productResolver: ResolveFn<Product[]> = (route, state) => {
   const store = inject(ProductStoreService);
 
   return firstValueFrom(of([]).pipe(
-    switchMap(() => store.getFirebase())
+    switchMap(() => store.getFirebase()),
+    catchError((error) => {
+      console.error('Error al resolver datos:', error);
+      return of([]); // Retorna un valor predeterminado en caso de error
+    })
   ));
 };
