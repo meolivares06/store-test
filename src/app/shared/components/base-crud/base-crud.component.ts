@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, Type} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {ConfirmationService, MessageService} from 'primeng/api';
@@ -21,6 +21,7 @@ export class BaseCrudComponent<T> implements OnDestroy {
   store: StoreService<T>;
   subscriptions: Subscription[] = [];
   cols: Column[] = [];
+  cardItem: Type<any>;
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());

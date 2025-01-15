@@ -14,6 +14,8 @@ import {TableRowDirective} from '@app/shared/components/datatable/directives/tab
 import {ClientStoreService} from '@feat/client/services/client-store.service';
 import {ProductStoreService} from '@feat/product/services/product-store.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {CardMobileSellComponent} from '@feat/sell/component/card-mobile-sell/card-mobile-sell.component';
+import {CardMobileComponent} from '@shared/components/datatable/components/card-mobile/card-mobile.component';
 
 
 @Component({
@@ -35,6 +37,7 @@ export class SellListComponent extends BaseCrudComponent<Sell> {
   productStoreService = inject(ProductStoreService);
 
   override cols = cols;
+  override cardItem = CardMobileSellComponent;
 
   constructor() {
     super();

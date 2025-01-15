@@ -1,93 +1,100 @@
-<p-table [columns]="cols" [value]="value" [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-striped" [paginator]="value.length > pageSize"
-         [rows]="pageSize" selectionMode="single" [(selection)]="selectedItem" >
-  <ng-template pTemplate="emptymessage">
-    <tr>
-      <td [colSpan]="cols.length" class="text-center">Sem dados. Agrega un elemento novo.</td>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
-      {{ title }}
-      <div class="flex gap-3 md:gap-4">
-        @if(showCreateAction) {
-          <p-button icon="pi pi-plus" (click)="createAction()" label="Add New" />
-        }
-        @if (showRefreshAction) {
-          <p-button icon="pi pi-refresh" (click)="refreshAction()" />
-        }
-      </div>
-    </div>
-  </ng-template>
-  <ng-template pTemplate="header" let-columns>
-    <tr>
-      @for(col of columns; track col.field) {
-        <th [pSortableColumn]="col.field" [style]="col.style"><span class="{{col.class}}">{{ col.header }}</span> <p-sortIcon [field]="col.field" /></th>
-      }
-      <!--<th style="width: 5rem" alignFrozen="right" pFrozenColumn></th>-->
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
-    <tr>
-      @for(col of columns; track col.field) {
-        <td>
-          @if (col?.pipe) {
-            <ng-container [ngTemplateOutletContext]="{$implicit: {value:rowData[col.field], pipe: col.pipe}}" [ngTemplateOutlet]="pipes"></ng-container>
-          } @else {
-            @if ((contentChildren | rowTemplate: col.field); as template) {
-              @if (col.field === 'action' && action) {
-                <!--External template-->
-                <ng-template [ngTemplateOutletContext]="{$implicit: rowData, column:col, rowIndex: index}"
-                             [ngTemplateOutlet]="template.template"/>
-                <!--Default action template-->
-                <ng-template [ngTemplateOutletContext]="{$implicit: rowData}" [ngTemplateOutlet]="staticActions"/>
-              } @else {
-                <ng-container [ngTemplateOutletContext]="{$implicit: rowData, column:col, rowIndex: index}" [ngTemplateOutlet]="template.template"/>
-              }
-            } @else {
-              @if (col.field === 'action' && action) {
-                <!--Default action template-->
-                <ng-template [ngTemplateOutletContext]="{$implicit: rowData}" [ngTemplateOutlet]="staticActions"/>
-              }
-              <span class="{{col.class}}">{{ rowData[col.field] }}</span>
-            }
+@if(!isMobile()){
+
+
+@defer {
+  <p-table [columns]="cols" [value]="value" [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-striped" [paginator]="value.length > pageSize"
+           [rows]="pageSize" selectionMode="single" [(selection)]="selectedItem" >
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [colSpan]="cols.length" class="text-center">Sem dados. Agrega un elemento novo.</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        {{ title }}
+        <div class="flex gap-3 md:gap-4">
+          @if(showCreateAction) {
+            <p-button icon="pi pi-plus" (click)="createAction()" label="Add New" />
           }
+          @if (showRefreshAction) {
+            <p-button icon="pi pi-refresh" (click)="refreshAction()" />
+          }
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        @for(col of columns; track col.field) {
+          <th [pSortableColumn]="col.field" [style]="col.style"><span class="{{col.class}}">{{ col.header }}</span> <p-sortIcon [field]="col.field" /></th>
+        }
+        <!--<th style="width: 5rem" alignFrozen="right" pFrozenColumn></th>-->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+      <tr>
+        @for(col of columns; track col.field) {
+          <td>
+            @if (col?.pipe) {
+              <ng-container [ngTemplateOutletContext]="{$implicit: {value:rowData[col.field], pipe: col.pipe}}" [ngTemplateOutlet]="pipes"></ng-container>
+            } @else {
+              @if ((contentChildren | rowTemplate: col.field); as template) {
+                @if (col.field === 'action' && action) {
+                  <!--External template-->
+                  <ng-template [ngTemplateOutletContext]="{$implicit: rowData, column:col, rowIndex: index}"
+                               [ngTemplateOutlet]="template.template"/>
+                  <!--Default action template-->
+                  <ng-template [ngTemplateOutletContext]="{$implicit: rowData}" [ngTemplateOutlet]="staticActions"/>
+                } @else {
+                  <ng-container [ngTemplateOutletContext]="{$implicit: rowData, column:col, rowIndex: index}" [ngTemplateOutlet]="template.template"/>
+                }
+              } @else {
+                @if (col.field === 'action' && action) {
+                  <!--Default action template-->
+                  <ng-template [ngTemplateOutletContext]="{$implicit: rowData}" [ngTemplateOutlet]="staticActions"/>
+                }
+                <span class="{{col.class}}">{{ rowData[col.field] }}</span>
+              }
+            }
 
-        </td>
+          </td>
+        }
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <ng-template #staticActions let-rowData>
+    <div class="flex">
+      @if (showEditAction) {
+        <p-button [outlined]="true" icon="pi pi-pencil" size="small" (click)="editAction(rowData)"></p-button>
       }
-    </tr>
+      @if (showDeleteAction) {
+        <p-button [outlined]="true" severity="danger" icon="pi pi-minus" size="small" (click)="deleteAction(rowData)" ></p-button>
+      }
+    </div>
+
   </ng-template>
-</p-table>
 
-<ng-template #staticActions let-rowData>
-  <div class="flex">
-    @if (showEditAction) {
-      <p-button [outlined]="true" icon="pi pi-pencil" size="small" (click)="editAction(rowData)"></p-button>
+  <ng-template #pipes let-data>
+    @if (data?.pipe === 'number') {
+      {{ data.value | number }}
     }
-    @if (showDeleteAction) {
-      <p-button [outlined]="true" severity="danger" icon="pi pi-minus" size="small" (click)="deleteAction(rowData)" ></p-button>
+    @if (data?.pipe === 'cpfCnpj') {
+      {{ data.value | cpfCnpj }}
     }
-  </div>
+    @if (data?.pipe === 'date') {
+      {{ data.value | date:'dd/MM/YYYY' : '+0' }}
+    }
+    @if (data?.pipe === 'cep') {
+      {{ data.value | cep }}
+    }
+    @if (data?.pipe === 'email') {
+      <a [href]="'mailto:' + data.value">{{ data.value }}</a>
+    }
+    @if(data?.pipe === 'currency') {
+      {{ data.value ? (data.value | currency) : '-'}}
+    }
 
-</ng-template>
+  </ng-template>
 
-<ng-template #pipes let-data>
-  @if (data?.pipe === 'number') {
-    {{ data.value | number }}
   }
-  @if (data?.pipe === 'cpfCnpj') {
-    {{ data.value | cpfCnpj }}
-  }
-  @if (data?.pipe === 'date') {
-    {{ data.value | date:'dd/MM/YYYY' : '+0' }}
-  }
-  @if (data?.pipe === 'cep') {
-    {{ data.value | cep }}
-  }
-  @if (data?.pipe === 'email') {
-    <a [href]="'mailto:' + data.value">{{ data.value }}</a>
-  }
-  @if(data?.pipe === 'currency') {
-    {{ data.value ? (data.value | currency) : '-'}}
-  }
-
-</ng-template>
+}

@@ -1,0 +1,13 @@
+<p-card>
+  <ng-template #title> {{ 'Sell: ' + code() }} </ng-template>
+  <ng-template #subtitle>By: {{client()}}</ng-template>
+  <div class="m-0">
+    <div class="total-product"><div class="text-center"> Product: {{product()}}</div></div>
+  </div>
+  <ng-template #footer>
+    <div class="flex gap-4 mt-1 justify-content-between">
+      <div class="total-creation-date">On: {{creationDate() | date}}</div>
+      <div class="total-total">Amount: {{total() | currency}}</div>
+    </div>
+  </ng-template>
+</p-card>

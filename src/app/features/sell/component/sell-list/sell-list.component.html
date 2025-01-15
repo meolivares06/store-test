@@ -1,7 +1,8 @@
 <p-toast/>
 <app-datatable [cols]="cols" [value]="store.list()" [title]="'Vendas'" [dialogService]="dialogService" [ref]="ref"
                [confirmationService]="confirmationService" [storeService]="store" [showDeleteAction]="true" [showEditAction]="true"
-               (onRefresh)="onRefresh()" (onDelete)="onDelete($event)" (onCreate)="onCreate()" (onEdit)="onEdit($event)">
+               (onRefresh)="onRefresh()" (onDelete)="onDelete($event)" (onCreate)="onCreate()" (onEdit)="onEdit($event)"
+                [cardItem]="cardItem">
   <!-- Custom renderer for address field -->
   <ng-template let-data tableRow="clientId">
     <span>
