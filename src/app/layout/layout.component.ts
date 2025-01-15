@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {RouterLink, RouterLinkActive} from '@angular/router';
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 import {MenuItem} from 'primeng/api';
 
@@ -12,7 +12,8 @@ import {SpinnerService} from '@app/core/services/spinner.service';
   imports: [
     RouterLink,
     RouterLinkActive,
-    GeneralSkeletonComponent
+    GeneralSkeletonComponent,
+    RouterOutlet
   ],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss',

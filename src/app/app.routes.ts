@@ -2,12 +2,14 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: '',
-    loadChildren: () => import('@app/layout/layout.routes').then(l => l.layoutRoutes)
+    path: 'mockdata',
+    loadComponent: () => import('@shared/mockdata/mockdata.component').then(c => c.MockdataComponent),
+    // loadChildren: () => import('@app/layout/layout.routes').then(l => l.layoutRoutes)
   },
   {
-    path: 'not-found',
-    loadComponent: () => import('@app/layout/not-found/not-found.component').then((c) => c.NotFoundComponent)
+    path: '',
+    // loadComponent: () => import('@app/layout/layout.component').then(c => c.LayoutComponent),
+    loadChildren: () => import('@app/layout/layout.routes').then(l => l.layoutRoutes)
   },
   {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
 ];
