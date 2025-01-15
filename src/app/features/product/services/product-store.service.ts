@@ -13,6 +13,7 @@ import {ProductFirebaseService} from '@feat/product/services/product-firebase.se
 export class ProductStoreService implements StoreService<Product> {
   firebaseService = inject(ProductFirebaseService);
   list = signal<Product[]>([]);
+  loading = false;
 
   constructor() { }
 

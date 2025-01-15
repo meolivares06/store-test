@@ -1,25 +1,27 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 import {MenuItem} from 'primeng/api';
-import {Button} from 'primeng/button';
 
 import {appTitle, menuData} from './layout.data';
+import {GeneralSkeletonComponent} from '@app/shared/components/general-skeleton/general-skeleton.component';
+import {SpinnerService} from '@app/core/services/spinner.service';
 
 @Component({
-  selector: 'app-layout',
-  standalone: true,
+    selector: 'app-layout',
   imports: [
-    Button,
-    RouterOutlet,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    GeneralSkeletonComponent,
+    RouterOutlet
   ],
-  templateUrl: './layout.component.html',
-  styleUrl: './layout.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './layout.component.html',
+    styleUrl: './layout.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent {
+  spinnerService = inject(SpinnerService);
+
   title = appTitle;
   menuItems: MenuItem[] | undefined = menuData;
 }

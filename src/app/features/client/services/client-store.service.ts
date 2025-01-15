@@ -12,6 +12,8 @@ export class ClientStoreService implements StoreService<Client> {
   firebaseService = inject(ClientFirebaseService);
   list = signal<Client[]>([]);
 
+  loading = false;
+
   constructor() { }
 
   addList(items: Client[]): void {

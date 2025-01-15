@@ -27,6 +27,7 @@
     "paths": {
       "@app/*": ["src/app/*"],
       "@feat/*": ["src/app/features/*"],
+      "@shared/*": ["src/app/shared/*"],
     },
     "strictPropertyInitialization": false
   },

@@ -7,27 +7,21 @@ import {cols} from '@feat/product/product.data';
 import {ProductFormComponent} from '@feat/product/component/product-form/product-form.component';
 import {DialogService} from 'primeng/dynamicdialog';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {CepPipe} from '@app/core/pipes';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {DatatableComponent} from '@app/shared/components/datatable/datatable.component';
-import {TableRowDirective} from '@app/shared/components/datatable/directives/table-row.directive';
 import {ToastModule} from 'primeng/toast';
 
 @Component({
-  selector: 'app-product-list',
-  standalone: true,
+    selector: 'app-product-list',
   imports: [
-    CepPipe,
     ConfirmDialogModule,
     DatatableComponent,
-    TableRowDirective,
     ToastModule
   ],
-  templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService, ConfirmationService, MessageService]
-
+    templateUrl: './product-list.component.html',
+    styleUrl: './product-list.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DialogService, ConfirmationService, MessageService]
 })
 export class ProductListComponent extends BaseCrudComponent<Product>{
   override store = inject(ProductStoreService);

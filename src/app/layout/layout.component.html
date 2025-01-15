@@ -14,7 +14,12 @@
   </div>
 
   <div class="col-12 height-full">
-    <router-outlet />
+    @if (spinnerService.loading) {
+      <app-general-skeleton />
+    } @else {
+      <router-outlet />
+    }
+
   </div>
   <div class="col-12 text-center">
     &#64;Copyright

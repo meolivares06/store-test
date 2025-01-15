@@ -1,9 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {JsonPipe} from '@angular/common';
 import {catchError, EMPTY, tap} from 'rxjs';
 
 import {TableModule} from 'primeng/table';
-import {Button} from 'primeng/button';
 import {DialogService} from 'primeng/dynamicdialog';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
@@ -20,21 +18,19 @@ import {Client} from '@feat/client/client.model';
 
 
 @Component({
-  selector: 'app-client-list',
-  standalone: true,
+    selector: 'app-client-list',
   imports: [
     TableModule,
-    Button,
     DatatableComponent,
     TableRowDirective,
     CepPipe,
     ConfirmDialogModule,
     ToastModule
   ],
-  templateUrl: './client-list.component.html',
-  styleUrl: './client-list.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService, ConfirmationService, MessageService]
+    templateUrl: './client-list.component.html',
+    styleUrl: './client-list.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DialogService, ConfirmationService, MessageService]
 })
 export class ClientListComponent extends BaseCrudComponent<Client> {
   override store = inject(ClientStoreService);
@@ -47,10 +43,15 @@ export class ClientListComponent extends BaseCrudComponent<Client> {
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        this.store.loading = true;
         this.subscriptions.push(
           this.store.deleteFirebase(rowData).pipe(
-            tap(() => this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Executed succefully' })),
+            tap(() => {
+              this.store.loading = false;
+              this.messageService.add({severity: 'success', summary: 'Success', detail: 'Executed succefully'});
+            }),
             catchError(() => {
+              this.store.loading = false;
               this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'Process failed' });
               return EMPTY;
             }),

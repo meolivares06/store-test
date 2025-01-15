@@ -7,11 +7,11 @@ import {ProductStoreService} from '@feat/product/services/product-store.service'
 export const productResolver: ResolveFn<Product[]> = (route, state) => {
   const store = inject(ProductStoreService);
 
-  return firstValueFrom(of([]).pipe(
-    switchMap(() => store.getFirebase()),
-    catchError((error) => {
-      console.error('Error al resolver datos:', error);
-      return of([]); // Retorna un valor predeterminado en caso de error
-    })
-  ));
+  if(store.list().length > 0) {
+    return store.list();
+  } else {
+    return firstValueFrom(of([]).pipe(
+      switchMap(() => store.getFirebase())
+    ));
+  }
 };

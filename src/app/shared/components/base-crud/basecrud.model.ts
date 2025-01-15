@@ -1,5 +1,3 @@
-import {ClientFirebaseService} from '@feat/client/services/client-firebase.service';
-import {Client} from '@feat/client/client.model';
 import {Observable} from 'rxjs';
 import {WritableSignal} from '@angular/core';
 import {Firestore} from '@angular/fire/firestore';
@@ -7,6 +5,7 @@ import {Firestore} from '@angular/fire/firestore';
 export interface StoreService<T> {
   firebaseService: FirebaseService<T>;
   list: WritableSignal<T[]>;
+  loading: boolean;
 
   addList(items: T[]): void;
 
