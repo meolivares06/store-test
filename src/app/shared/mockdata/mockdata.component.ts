@@ -1,11 +1,12 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {generateMockSellsFn, mockClients, mockProducts} from 'public/mock';
 import {JsonPipe} from '@angular/common';
 import {Button} from 'primeng/button';
 import {ClientStoreService} from '@feat/client/services/client-store.service';
 import {ProductStoreService} from '@feat/product/services/product-store.service';
 import {SellStoreService} from '@feat/sell/services/sell-store.service';
-import {catchError, EMPTY, generate} from 'rxjs';
+import {catchError, EMPTY} from 'rxjs';
+
 @Component({
   selector: 'app-mockdata',
   imports: [
