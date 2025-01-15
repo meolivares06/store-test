@@ -12,21 +12,22 @@ import {BaseFormComponent} from '@app/shared/components/base-form/base-form.comp
 import {Sell} from '@feat/sell/sell.model';
 import {ClientStoreService} from '@feat/client/services/client-store.service';
 import {ProductStoreService} from '@feat/product/services/product-store.service';
+import {DropdownModule} from 'primeng/dropdown';
 
 @Component({
-  selector: 'app-sell-form',
-  standalone: true,
+    selector: 'app-sell-form',
   imports: [
     Button,
     InputNumberModule,
     InputTextModule,
     PaginatorModule,
     ReactiveFormsModule,
-    CalendarModule
+    CalendarModule,
+    DropdownModule
   ],
-  templateUrl: './sell-form.component.html',
-  styleUrl: './sell-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './sell-form.component.html',
+    styleUrl: './sell-form.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SellFormComponent extends BaseFormComponent<Sell> implements OnInit {
   override storeService = inject(SellStoreService);

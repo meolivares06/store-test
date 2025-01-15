@@ -10,7 +10,6 @@ import {SellFormComponent} from '@feat/sell/component/sell-form/sell-form.compon
 import {ToastModule} from 'primeng/toast';
 import {DatatableComponent} from '@app/shared/components/datatable/datatable.component';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {CepPipe} from '@app/core/pipes';
 import {TableRowDirective} from '@app/shared/components/datatable/directives/table-row.directive';
 import {ClientStoreService} from '@feat/client/services/client-store.service';
 import {ProductStoreService} from '@feat/product/services/product-store.service';
@@ -18,19 +17,17 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 
 @Component({
-  selector: 'app-sell-list',
-  standalone: true,
+    selector: 'app-sell-list',
   imports: [
     ToastModule,
     DatatableComponent,
     ConfirmDialogModule,
-    CepPipe,
     TableRowDirective
   ],
-  templateUrl: './sell-list.component.html',
-  styleUrl: './sell-list.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService, ConfirmationService, MessageService]
+    templateUrl: './sell-list.component.html',
+    styleUrl: './sell-list.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DialogService, ConfirmationService, MessageService]
 })
 export class SellListComponent extends BaseCrudComponent<Sell> {
   override store = inject(SellStoreService);

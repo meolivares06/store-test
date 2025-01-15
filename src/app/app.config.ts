@@ -6,7 +6,10 @@ import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
 import {getFirestore, provideFirestore} from '@angular/fire/firestore';
 
 import {routes} from './app.routes';
-import {provideAnimations} from '@angular/platform-browser/animations';
+// import {provideAnimations} from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCqLhuQMte_BjitDgsyD6BtplCReZQM9ik",
@@ -23,6 +26,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes), /*provideClientHydration(),*/
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore()),
-    provideAnimations()
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    })
   ]
 };

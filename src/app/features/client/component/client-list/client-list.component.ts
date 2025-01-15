@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {catchError, EMPTY, tap} from 'rxjs';
 
 import {TableModule} from 'primeng/table';
-import {Button} from 'primeng/button';
 import {DialogService} from 'primeng/dynamicdialog';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
@@ -19,21 +18,19 @@ import {Client} from '@feat/client/client.model';
 
 
 @Component({
-  selector: 'app-client-list',
-  standalone: true,
+    selector: 'app-client-list',
   imports: [
     TableModule,
-    Button,
     DatatableComponent,
     TableRowDirective,
     CepPipe,
     ConfirmDialogModule,
     ToastModule
   ],
-  templateUrl: './client-list.component.html',
-  styleUrl: './client-list.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService, ConfirmationService, MessageService]
+    templateUrl: './client-list.component.html',
+    styleUrl: './client-list.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DialogService, ConfirmationService, MessageService]
 })
 export class ClientListComponent extends BaseCrudComponent<Client> {
   override store = inject(ClientStoreService);

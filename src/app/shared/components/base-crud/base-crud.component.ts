@@ -6,12 +6,11 @@ import {StoreService} from '@app/shared/components/base-crud/basecrud.model';
 import {Column} from '@app/shared/components/datatable/datatable.model';
 
 @Component({
-  selector: 'app-base-crud',
-  standalone: true,
-  imports: [],
-  templateUrl: './base-crud.component.html',
-  styleUrl: './base-crud.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-base-crud',
+    imports: [],
+    templateUrl: './base-crud.component.html',
+    styleUrl: './base-crud.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BaseCrudComponent<T> implements OnDestroy {
   dialogService = inject(DialogService);

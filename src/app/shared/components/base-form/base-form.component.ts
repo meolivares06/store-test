@@ -6,12 +6,11 @@ import {StoreService} from '@app/shared/components/base-crud/basecrud.model';
 
 
 @Component({
-  selector: 'app-base-form',
-  standalone: true,
-  imports: [],
-  templateUrl: './base-form.component.html',
-  styleUrl: './base-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-base-form',
+    imports: [],
+    templateUrl: './base-form.component.html',
+    styleUrl: './base-form.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BaseFormComponent<T> {
   form: FormGroup;

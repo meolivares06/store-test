@@ -16,23 +16,22 @@ import {StoreService} from '@app/shared/components/base-crud/basecrud.model';
 /** Generic component for tables
  * Admits custom renderers by setting ng-template for each cell */
 @Component({
-  selector: 'app-datatable',
-  standalone: true,
-  imports: [
-    Button,
-    PrimeTemplate,
-    TableModule,
-    RowTemplatePipe,
-    NgTemplateOutlet,
-    DecimalPipe,
-    DatePipe,
-    CepPipe,
-    CpfCnpjPipe,
-    CurrencyPipe
-  ],
-  templateUrl: './datatable.component.html',
-  styleUrl: './datatable.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-datatable',
+    imports: [
+        Button,
+        PrimeTemplate,
+        TableModule,
+        RowTemplatePipe,
+        NgTemplateOutlet,
+        DecimalPipe,
+        DatePipe,
+        CepPipe,
+        CpfCnpjPipe,
+        CurrencyPipe
+    ],
+    templateUrl: './datatable.component.html',
+    styleUrl: './datatable.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DatatableComponent {
 

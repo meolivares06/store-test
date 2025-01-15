@@ -8,21 +8,22 @@ import {InputTextModule} from 'primeng/inputtext';
 import {PaginatorModule} from 'primeng/paginator';
 import {BaseFormComponent} from '@app/shared/components/base-form/base-form.component';
 import {Product} from '@feat/product/product.model';
+import {InputNumber} from 'primeng/inputnumber';
 
 @Component({
-  selector: 'app-product-form',
-  standalone: true,
+    selector: 'app-product-form',
   imports: [
     Button,
     CalendarModule,
     InputMaskModule,
     InputTextModule,
     PaginatorModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InputNumber
   ],
-  templateUrl: './product-form.component.html',
-  styleUrl: './product-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './product-form.component.html',
+    styleUrl: './product-form.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductFormComponent  extends BaseFormComponent<Product> {
   override storeService = inject(ProductStoreService);
