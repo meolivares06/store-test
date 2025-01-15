@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/cor
 import {CardMobileComponent} from '@shared/components/datatable/components/card-mobile/card-mobile.component';
 import {Sell} from '@feat/sell/sell.model';
 import {Card} from 'primeng/card';
-import {CurrencyPipe, DatePipe, JsonPipe} from '@angular/common';
+import {CurrencyPipe, DatePipe} from '@angular/common';
 import {ClientStoreService} from '@feat/client/services/client-store.service';
 import {ProductStoreService} from '@feat/product/services/product-store.service';
 
@@ -10,7 +10,6 @@ import {ProductStoreService} from '@feat/product/services/product-store.service'
   selector: 'app-card-mobile-sell',
   imports: [
     Card,
-    JsonPipe,
     DatePipe,
     CurrencyPipe
   ],

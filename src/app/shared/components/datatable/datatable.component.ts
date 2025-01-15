@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
-  Component, ComponentRef,
+  Component,
+  ComponentRef,
   ContentChildren,
-  effect,
   EventEmitter,
   inject,
   Input,

@@ -15,7 +15,6 @@ import {ClientStoreService} from '@feat/client/services/client-store.service';
 import {ProductStoreService} from '@feat/product/services/product-store.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {CardMobileSellComponent} from '@feat/sell/component/card-mobile-sell/card-mobile-sell.component';
-import {CardMobileComponent} from '@shared/components/datatable/components/card-mobile/card-mobile.component';
 
 
 @Component({
