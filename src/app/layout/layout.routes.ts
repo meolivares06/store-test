@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import {sellResolver} from '@feat/sell/resolver/sell.resolver';
+import {clientResolver} from '@feat/client/resolver/client.resolver';
+import {productResolver} from '@feat/product/resolver/product.resolver';
 
 export const layoutRoutes: Routes = [
   {
@@ -18,6 +21,11 @@ export const layoutRoutes: Routes = [
       {
         path: 'sell',
         loadChildren: () => import('@feat/sell/sell.routes').then(r => r.SellRoutes)
+      },
+      {
+        path: 'mockdata',
+        resolve: { data: sellResolver, clients: clientResolver, products: productResolver },
+        loadComponent: () => import('@shared/mockdata/mockdata.component').then(c => c.MockdataComponent),
       },
       {
         path: 'not-found',

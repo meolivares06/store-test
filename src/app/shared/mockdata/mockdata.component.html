@@ -1,0 +1,18 @@
+<p>mockdata!</p>
+<div class="card flex justify-center gap-5">
+  <p-button label="Load clients" (click)="onLoadClients()" />
+  <p-button label="Load products" (click)="onLoadProductos()" />
+  <p-button label="Load sells" (click)="onLoadSells()" />
+</div>
+<div class="debug-block">
+  <h3>Clients</h3>
+  <pre>{{clientService.list() | json}}</pre>
+</div>
+<div class="debug-block">
+  <h3>Products</h3>
+  <pre>{{productService.list() | json}}</pre>
+</div>
+<div class="debug-block">
+  <h3>Sells</h3>
+  <pre>{{sellService.list() | json}}</pre>
+</div>

@@ -15,11 +15,12 @@ function generateMockAddress(index: number): Address {
     cidade: `Cidade ${index}`,
   };
 }
-
+// Ids must be omitted in order to avoid conflicts with Firebase IDs
 // Generar datos mock para Clients
 function generateMockClients(): Client[] {
+  // @ts-ignore
   return Array.from({ length: 40 }, (_, index) => ({
-    id: `client-${index + 1}`,
+    // id: `client-${index + 1}`,
     code: `C-${1000 + index}`,
     name: `Client ${index + 1}`,
     cpf: `${10000000000 + index}`,
@@ -31,8 +32,9 @@ function generateMockClients(): Client[] {
 
 // Generar datos mock para Products
 function generateMockProducts(): Product[] {
+  // @ts-ignore
   return Array.from({ length: 40 }, (_, index) => ({
-    id: `product-${index + 1}`,
+    // id: `product-${index + 1}`,
     code: `P-${2000 + index}`,
     name: `Product ${index + 1}`,
     value: parseFloat((Math.random() * 100 + 10).toFixed(2)), // Valores aleatorios entre 10 y 110
@@ -40,13 +42,14 @@ function generateMockProducts(): Product[] {
 }
 
 // Generar datos mock para Sells
-function generateMockSells(clients: Client[], products: Product[]): Sell[] {
+function generateMockSellsFn(clients: Client[], products: Product[]): Sell[] {
+  // @ts-ignore
   return Array.from({ length: 40 }, (_, index) => {
     const client = clients[index % clients.length];
     const product = products[index % products.length];
     const total = parseFloat((product.value * (Math.random() * 5 + 1)).toFixed(2)); // Total aleatorio basado en el valor del producto
     return {
-      id: `sell-${index + 1}`,
+      // id: `sell-${index + 1}`,
       code: `S-${3000 + index}`,
       creationDate: new Date(2023, index % 12, (index % 28) + 1).toISOString(),
       clientId: client.id,
@@ -59,7 +62,6 @@ function generateMockSells(clients: Client[], products: Product[]): Sell[] {
 // Generar las listas
 const mockClients = generateMockClients();
 const mockProducts = generateMockProducts();
-const mockSells = generateMockSells(mockClients, mockProducts);
 
 // Exportar los mocks
-export { mockClients, mockProducts, mockSells };
+export { mockClients, mockProducts, generateMockSellsFn };
