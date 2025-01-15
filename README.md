@@ -66,6 +66,8 @@ This is a web application developed using **Angular** and **Firebase** for manag
 - **CSS / SCSS**: Modern and responsive styling, optimized for a great user interface (UI/UX).
 - **Object-Oriented Programming**: Object-oriented principles applied to ensure clean, maintainable, and reusable code.
 - **SOLID**
+- **Generics Type**: Utilizing generics to create reusable components and services.
+- **Dynamic loading**: Implementing dynamic loading of components and data.
 
 This project is a complete example of how to use **Angular** and **Firebase** to build modern, scalable web applications while applying best practices in architecture, design, and performance.
 
