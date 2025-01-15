@@ -5,14 +5,14 @@ import {Button} from 'primeng/button';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {InputTextModule} from 'primeng/inputtext';
 import {PaginatorModule} from 'primeng/paginator';
-import {CalendarModule} from 'primeng/calendar';
 import {Client} from '@feat/client/client.model';
 import {Product} from '@feat/product/product.model';
 import {BaseFormComponent} from '@app/shared/components/base-form/base-form.component';
 import {Sell} from '@feat/sell/sell.model';
 import {ClientStoreService} from '@feat/client/services/client-store.service';
 import {ProductStoreService} from '@feat/product/services/product-store.service';
-import {DropdownModule} from 'primeng/dropdown';
+import {DatePicker} from 'primeng/datepicker';
+import {Select} from 'primeng/select';
 
 @Component({
     selector: 'app-sell-form',
@@ -22,8 +22,8 @@ import {DropdownModule} from 'primeng/dropdown';
     InputTextModule,
     PaginatorModule,
     ReactiveFormsModule,
-    CalendarModule,
-    DropdownModule
+    DatePicker,
+    Select
   ],
     templateUrl: './sell-form.component.html',
     styleUrl: './sell-form.component.scss',

@@ -4,7 +4,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
 import {cpf} from '@app/core/validators/cpf.validator';
 import {InputMaskModule} from 'primeng/inputmask';
-import {CalendarModule} from 'primeng/calendar';
+import { DatePickerModule, DatePicker } from 'primeng/datepicker';
 import {ClientStoreService} from '@feat/client/services/client-store.service';
 import {BaseFormComponent} from '@app/shared/components/base-form/base-form.component';
 import {Client} from '@feat/client/client.model';
@@ -17,7 +17,8 @@ import {Client} from '@feat/client/client.model';
     InputTextModule,
     Button,
     InputMaskModule,
-    CalendarModule
+    DatePickerModule,
+    DatePicker
   ],
     templateUrl: './client-form.component.html',
     styleUrl: './client-form.component.scss',
@@ -45,7 +46,7 @@ export class ClientFormComponent extends BaseFormComponent<Client> {
         cidade: new FormControl(data?.address?.cidade, [Validators.required,])
       }),
       email: new FormControl(data?.email, [Validators.required, Validators.email]),
-      birthday: new FormControl(data?.birthday, [Validators.required])
+      birthday: new FormControl(data?.birthday ? new Date(data?.birthday) : null, [Validators.required])
     })
   }
 }

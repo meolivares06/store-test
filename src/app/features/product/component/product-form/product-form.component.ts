@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ProductStoreService} from '@feat/product/services/product-store.service';
 import {Button} from 'primeng/button';
-import {CalendarModule} from 'primeng/calendar';
 import {InputMaskModule} from 'primeng/inputmask';
 import {InputTextModule} from 'primeng/inputtext';
 import {PaginatorModule} from 'primeng/paginator';
@@ -14,7 +13,6 @@ import {InputNumber} from 'primeng/inputnumber';
     selector: 'app-product-form',
   imports: [
     Button,
-    CalendarModule,
     InputMaskModule,
     InputTextModule,
     PaginatorModule,
