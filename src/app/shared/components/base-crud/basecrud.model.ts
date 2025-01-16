@@ -29,7 +29,7 @@ export interface StoreService<T> {
 export interface FirebaseService<T> {
   firestore: Firestore;
   basePath: string;
-  clientCollection: any;
+  collectionRef: any;
 
   get(): Observable<T[]>;
 

@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {addDoc, collection, collectionData, deleteDoc, doc, Firestore, setDoc} from '@angular/fire/firestore';
+import {addDoc, collection, collectionData, deleteDoc, doc, Firestore, orderBy, query, setDoc} from '@angular/fire/firestore';
 import {catchError, from, map, Observable, of} from 'rxjs';
 import {FirebaseService} from '@app/shared/components/base-crud/basecrud.model';
 import {Sell} from '@feat/sell/sell.model';
@@ -11,13 +11,14 @@ import {sellAdapter} from '@app/core/adapters/sell.adapter';
 export class SellFirebaseService implements FirebaseService<Sell> {
   firestore = inject(Firestore);
   basePath = 'sell';
-  clientCollection = collection(this.firestore, this.basePath);
+  collectionRef = collection(this.firestore, this.basePath);
 
   constructor() {
   }
 
   get(): Observable<Sell[]> {
-    return collectionData(this.clientCollection, {idField: 'id'}).pipe(
+    const q = query(this.collectionRef, orderBy('creationDate', 'asc'));
+    return collectionData(q, {idField: 'id'}).pipe(
       map(document => {
         return sellAdapter((document as (unknown & { creationDate: any })[]));
       }),
@@ -26,7 +27,7 @@ export class SellFirebaseService implements FirebaseService<Sell> {
   }
 
   add(data: Sell): Observable<string> {
-    const promise = addDoc(this.clientCollection, data).then((p) => p.id);
+    const promise = addDoc(this.collectionRef, data).then((p) => p.id);
     return from(promise);
   }
 

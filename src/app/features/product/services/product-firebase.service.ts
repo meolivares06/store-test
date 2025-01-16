@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {addDoc, collection, collectionData, deleteDoc, doc, Firestore, setDoc} from '@angular/fire/firestore';
+import {addDoc, collection, collectionData, deleteDoc, doc, Firestore, orderBy, query, setDoc} from '@angular/fire/firestore';
 import {catchError, from, map, Observable, of} from 'rxjs';
 import {FirebaseService} from '@app/shared/components/base-crud/basecrud.model';
 import {Product} from '@feat/product/product.model';
@@ -11,13 +11,14 @@ import {productAdapter} from '@app/core/adapters';
 export class ProductFirebaseService implements FirebaseService<Product> {
   firestore = inject(Firestore);
   basePath = 'product';
-  clientCollection = collection(this.firestore, this.basePath);
+  collectionRef = collection(this.firestore, this.basePath);
 
   constructor() {
   }
 
   get(): Observable<Product[]> {
-    return collectionData(this.clientCollection, {idField: 'id'}).pipe(
+    const q = query(this.collectionRef, orderBy('name', 'asc'));
+    return collectionData(q, {idField: 'id'}).pipe(
       map(document => {
         return productAdapter((document as unknown[]));
       }),
@@ -26,7 +27,7 @@ export class ProductFirebaseService implements FirebaseService<Product> {
   }
 
   add(data: Product): Observable<string> {
-    const promise = addDoc(this.clientCollection, data).then((p) => p.id);
+    const promise = addDoc(this.collectionRef, data).then((p) => p.id);
     return from(promise);
   }
 
