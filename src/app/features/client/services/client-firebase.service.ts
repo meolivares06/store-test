@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
-import {addDoc, collection, collectionData, deleteDoc, doc, Firestore, setDoc} from '@angular/fire/firestore';
+import {addDoc, collection, collectionData, deleteDoc, doc, Firestore, setDoc, query, orderBy} from '@angular/fire/firestore';
 import {Client} from '@feat/client/client.model';
-import {catchError, from, map, Observable, of} from 'rxjs';
+import {catchError, from, map, Observable, of, tap} from 'rxjs';
 import {clientAdapter} from '@app/core/adapters';
 import {FirebaseService} from '@app/shared/components/base-crud/basecrud.model';
 
@@ -11,13 +11,15 @@ import {FirebaseService} from '@app/shared/components/base-crud/basecrud.model';
 export class ClientFirebaseService implements FirebaseService<Client> {
   firestore = inject(Firestore);
   basePath = 'client';
-  clientCollection = collection(this.firestore, this.basePath);
+  collectionRef = collection(this.firestore, this.basePath);
 
   constructor() {
   }
 
   get(): Observable<Client[]> {
-    return collectionData(this.clientCollection, {idField: 'id'}).pipe(
+    const q = query(this.collectionRef, orderBy('name', 'asc'));
+    return collectionData(q, {idField: 'id'}).pipe(
+      tap(console.log),
       map(document => {
         return clientAdapter(document as (unknown & { birthday: any })[]);
       }),
@@ -26,7 +28,7 @@ export class ClientFirebaseService implements FirebaseService<Client> {
   }
 
   add(data: Client): Observable<string> {
-    const promise = addDoc(this.clientCollection, data).then((p) => p.id);
+    const promise = addDoc(this.collectionRef, data).then((p) => p.id);
     return from(promise);
   }
 
