@@ -14,9 +14,7 @@ export class ClientStoreService implements StoreService<Client> {
 
   loading = false;
 
-  constructor() {
-    console.log(process.env['MY_ENV_VAR']);
-  }
+  constructor() {}
 
   addList(items: Client[]): void {
     this.list.update(l => [...items]);
