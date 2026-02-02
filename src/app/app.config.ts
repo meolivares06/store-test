@@ -1,6 +1,6 @@
-import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
+import {ApplicationConfig, ErrorHandler, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
-import {provideHttpClient, withFetch} from '@angular/common/http';
+import {provideHttpClient, withFetch, withInterceptors} from '@angular/common/http';
 
 import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
 import {getFirestore, provideFirestore} from '@angular/fire/firestore';
@@ -10,6 +10,11 @@ import {routes} from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import {errorInterceptor} from '@app/core/interceptors/error.interceptor';
+import {MessageService} from 'primeng/api';
+import {GlobalErrorHandler} from '@app/core/errors/global-error-handler';
+import {serverErrorInterceptor} from '@app/core/interceptors/server-error.interceptor';
+import {globalErrorsInterceptor} from '@app/core/interceptors/global-errors.interceptor';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCqLhuQMte_BjitDgsyD6BtplCReZQM9ik",
@@ -22,7 +27,7 @@ const firebaseConfig = {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([/*errorInterceptor*//*serverErrorInterceptor*/globalErrorsInterceptor])),
     provideRouter(routes), /*provideClientHydration(),*/
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore()),
@@ -31,6 +36,8 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Aura
       }
-    })
+    }),
+    MessageService,
+    {provide: ErrorHandler, useClass: GlobalErrorHandler, deps: [MessageService]}
   ]
 };

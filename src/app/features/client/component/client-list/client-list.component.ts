@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {catchError, EMPTY, tap} from 'rxjs';
 
 import {TableModule} from 'primeng/table';
@@ -32,10 +32,13 @@ import {Client} from '@feat/client/client.model';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DialogService, ConfirmationService, MessageService]
 })
-export class ClientListComponent extends BaseCrudComponent<Client> {
+export class ClientListComponent extends BaseCrudComponent<Client> implements OnInit {
   override store = inject(ClientStoreService);
   override cols = cols;
 
+  ngOnInit(): void {
+    console.log('ClientListComponent', this.store.list());
+  }
   override onDelete(rowData: Client) {
 
     this.confirmationService.confirm({

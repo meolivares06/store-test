@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {BaseCrudComponent} from '@app/shared/components/base-crud/base-crud.component';
 import {Product} from '@feat/product/product.model';
 import {catchError, EMPTY, tap} from 'rxjs';
@@ -23,10 +23,13 @@ import {ToastModule} from 'primeng/toast';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DialogService, ConfirmationService, MessageService]
 })
-export class ProductListComponent extends BaseCrudComponent<Product>{
+export class ProductListComponent extends BaseCrudComponent<Product> implements OnInit {
   override store = inject(ProductStoreService);
   override cols = cols;
 
+  ngOnInit(): void {
+    console.log('ProductListComponent', this.store.list());
+  }
   override onDelete(rowData: Product) {
 
     this.confirmationService.confirm({
