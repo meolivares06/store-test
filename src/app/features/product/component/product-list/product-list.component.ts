@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { BaseCrudComponent } from '@app/shared/components/base-crud/base-crud.component';
 import { Product } from '@feat/product/product.model';
+import { CardMobileProductComponent } from '@feat/product/component/card-mobile-product/card-mobile-product.component';
 import { catchError, EMPTY, tap } from 'rxjs';
 import { ProductStoreService } from '@feat/product/services/product-store.service';
 import { cols } from '@feat/product/product.data';
@@ -30,6 +31,7 @@ export class ProductListComponent
 {
   override store = inject(ProductStoreService);
   override cols = cols;
+  override cardItem = CardMobileProductComponent;
 
   ngOnInit(): void {
     console.log('ProductListComponent', this.store.list());

@@ -15,6 +15,7 @@ import {CepPipe} from '@app/core/pipes';
 import {ClientStoreService} from '@feat/client/services/client-store.service';
 import {BaseCrudComponent} from '@app/shared/components/base-crud/base-crud.component';
 import {Client} from '@feat/client/client.model';
+import {CardMobileClientComponent} from '@feat/client/component/card-mobile-client/card-mobile-client.component';
 
 
 @Component({
@@ -35,6 +36,7 @@ import {Client} from '@feat/client/client.model';
 export class ClientListComponent extends BaseCrudComponent<Client> implements OnInit {
   override store = inject(ClientStoreService);
   override cols = cols;
+  override cardItem = CardMobileClientComponent;
 
   ngOnInit(): void {
     console.log('ClientListComponent', this.store.list());

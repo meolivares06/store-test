@@ -32,6 +32,7 @@
       "@client/*": ["src/app/features/client/*"],
       "@product/*": ["src/app/features/product/*"],
       "@sell/*": ["src/app/features/sell/*"],
+      "@login/*": ["src/app/features/login/*"],
     },
     "strictPropertyInitialization": false
   },

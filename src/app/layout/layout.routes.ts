@@ -46,4 +46,9 @@ export const layoutRoutes: Routes = [
       },
     ],
   },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('@login/login.routes').then((r) => r.loginRoutes),
+  },
 ];

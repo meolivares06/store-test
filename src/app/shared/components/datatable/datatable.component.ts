@@ -91,7 +91,9 @@ export class DatatableComponent implements OnInit {
 
     this._mobileQueryListener = () => {
       this.isMobile.set(this._mobileQuery.matches);
-      this.loadContent();
+      if (this._mobileQuery.matches) {
+        this.loadContent();
+      }
     };
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
   }
@@ -123,6 +125,7 @@ export class DatatableComponent implements OnInit {
 
   private loadContent() {
     if (this.cardItem) {
+      this.viewContainer.clear();
       this.value.forEach((item) => {
         const cmpRef: ComponentRef<CardMobileComponent<typeof item>> =
           this.viewContainer.createComponent(this.cardItem);
