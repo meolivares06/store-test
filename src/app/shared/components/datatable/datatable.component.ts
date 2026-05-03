@@ -11,29 +11,32 @@ import {
   QueryList,
   signal,
   Type,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
-import {CurrencyPipe, DatePipe, DecimalPipe, NgTemplateOutlet} from '@angular/common';
-import {MediaMatcher} from '@angular/cdk/layout';
+import {
+  CurrencyPipe,
+  DatePipe,
+  DecimalPipe,
+  NgTemplateOutlet,
+} from '@angular/common';
+import { MediaMatcher } from '@angular/cdk/layout';
 
+import { Button } from 'primeng/button';
+import { ConfirmationService, PrimeTemplate } from 'primeng/api';
+import { TableModule } from 'primeng/table';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
-import {Button} from 'primeng/button';
-import {ConfirmationService, PrimeTemplate} from 'primeng/api';
-import {TableModule} from 'primeng/table';
-import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
-
-import {cols} from '@feat/client/client.data';
-import {TableRowDirective} from '@app/shared/components/datatable/directives/table-row.directive';
-import {RowTemplatePipe} from '@app/shared/components/datatable/pipes/row-template.pipe';
-import {CepPipe, CpfCnpjPipe} from '@app/core/pipes/';
-import {StoreService} from '@app/shared/components/base-crud/basecrud.model';
-import {CardMobileComponent} from '@shared/components/datatable/components/card-mobile/card-mobile.component';
-
+import { cols } from '@feat/client/client.data';
+import { TableRowDirective } from '@app/shared/components/datatable/directives/table-row.directive';
+import { RowTemplatePipe } from '@app/shared/components/datatable/pipes/row-template.pipe';
+import { CepPipe, CpfCnpjPipe } from '@app/core/pipes/';
+import { StoreService } from '@app/shared/components/base-crud/basecrud.model';
+import { CardMobileComponent } from '@shared/components/datatable/components/card-mobile/card-mobile.component';
 
 /** Generic component for tables
  * Admits custom renderers by setting ng-template for each cell */
 @Component({
-    selector: 'app-datatable',
+  selector: 'app-datatable',
   imports: [
     Button,
     PrimeTemplate,
@@ -44,14 +47,13 @@ import {CardMobileComponent} from '@shared/components/datatable/components/card-
     DatePipe,
     CepPipe,
     CpfCnpjPipe,
-    CurrencyPipe
+    CurrencyPipe,
   ],
-    templateUrl: './datatable.component.html',
-    styleUrl: './datatable.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './datatable.component.html',
+  styleUrl: './datatable.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DatatableComponent implements OnInit {
-
   @Input() value: any[] = [];
   @Input() cols = cols;
   @Input() title = '';
@@ -66,7 +68,8 @@ export class DatatableComponent implements OnInit {
   @Output() onCreate = new EventEmitter<boolean>();
   @Output() onRefresh = new EventEmitter<any>();
 
-  @ContentChildren(TableRowDirective) contentChildren!: QueryList<TableRowDirective>;
+  @ContentChildren(TableRowDirective)
+  contentChildren!: QueryList<TableRowDirective>;
   selectedItem: any;
   @Input() showEditAction = true;
   @Input() showDeleteAction = true;
@@ -80,7 +83,6 @@ export class DatatableComponent implements OnInit {
   private readonly _mobileQuery: MediaQueryList;
   private readonly _mobileQueryListener: () => void;
 
-
   constructor(private viewContainer: ViewContainerRef) {
     const media = inject(MediaMatcher);
 
@@ -89,13 +91,15 @@ export class DatatableComponent implements OnInit {
 
     this._mobileQueryListener = () => {
       this.isMobile.set(this._mobileQuery.matches);
-      this.loadContent();
+      if (this._mobileQuery.matches) {
+        this.loadContent();
+      }
     };
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
   }
 
   ngOnInit(): void {
-    if(this.isMobile()) {
+    if (this.isMobile()) {
       this.loadContent();
     }
   }
@@ -120,11 +124,15 @@ export class DatatableComponent implements OnInit {
   }
 
   private loadContent() {
-    this.value.forEach(item => {
-      const cmpRef: ComponentRef<CardMobileComponent<typeof item>> = this.viewContainer.createComponent(this.cardItem);
-      cmpRef.setInput('oneItem', item);
-      cmpRef.changeDetectorRef.detectChanges();
-    });
+    if (this.cardItem) {
+      this.viewContainer.clear();
+      this.value.forEach((item) => {
+        const cmpRef: ComponentRef<CardMobileComponent<typeof item>> =
+          this.viewContainer.createComponent(this.cardItem);
+        cmpRef.setInput('oneItem', item);
+        cmpRef.changeDetectorRef.detectChanges();
+      });
+    }
   }
   /*private getItemInstance(item: unknown): void {
     // Locate a DOM node that would be used as a host.

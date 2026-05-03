@@ -28,6 +28,11 @@
       "@app/*": ["src/app/*"],
       "@feat/*": ["src/app/features/*"],
       "@shared/*": ["src/app/shared/*"],
+      "@layout/*": ["src/app/layout/*"],
+      "@client/*": ["src/app/features/client/*"],
+      "@product/*": ["src/app/features/product/*"],
+      "@sell/*": ["src/app/features/sell/*"],
+      "@login/*": ["src/app/features/login/*"],
     },
     "strictPropertyInitialization": false
   },

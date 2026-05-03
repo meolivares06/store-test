@@ -1,0 +1,9 @@
+<p-card>
+  <ng-template #title> {{ 'Product: ' + code() }} </ng-template>
+  <ng-template #subtitle>{{name()}}</ng-template>
+  <ng-template #footer>
+    <div class="flex gap-4 mt-1 justify-content-end">
+      <div class="total-value">Value: {{value() | currency}}</div>
+    </div>
+  </ng-template>
+</p-card>

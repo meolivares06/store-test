@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {DialogService} from 'primeng/dynamicdialog';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {BaseCrudComponent} from '@app/shared/components/base-crud/base-crud.component';
@@ -30,7 +30,7 @@ import {CardMobileSellComponent} from '@feat/sell/component/card-mobile-sell/car
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [DialogService, ConfirmationService, MessageService]
 })
-export class SellListComponent extends BaseCrudComponent<Sell> {
+export class SellListComponent extends BaseCrudComponent<Sell> implements OnInit {
   override store = inject(SellStoreService);
   clientStoreService = inject(ClientStoreService);
   productStoreService = inject(ProductStoreService);
@@ -53,6 +53,9 @@ export class SellListComponent extends BaseCrudComponent<Sell> {
     ).subscribe();
   }
 
+  ngOnInit(): void {
+    console.log('SellListComponent', this.store.list());
+  }
   override onDelete(rowData: Sell) {
 
     this.confirmationService.confirm({

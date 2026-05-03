@@ -1,0 +1,9 @@
+<p-card>
+  <ng-template #title> {{ 'Client: ' + code() }} </ng-template>
+  <ng-template #subtitle>{{name()}}</ng-template>
+  <ng-template #footer>
+    <div class="flex gap-4 mt-1 justify-content-end">
+      <div class="total-birthday">Birthday: {{birthday() | date}}</div>
+    </div>
+  </ng-template>
+</p-card>

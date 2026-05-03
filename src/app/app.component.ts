@@ -2,10 +2,11 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 
 import {PrimeNG} from 'primeng/config';
+import {Toast, ToastModule} from 'primeng/toast';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet],
+  imports: [RouterOutlet, Toast, ToastModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -18,3 +19,4 @@ export class AppComponent implements OnInit {
     this.primeng.ripple.set(true);
   }
 }
+
